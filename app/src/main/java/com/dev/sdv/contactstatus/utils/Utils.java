@@ -3,7 +3,7 @@ package com.dev.sdv.contactstatus.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.dev.sdv.contactstatus.auth.Authentication;
+import com.dev.sdv.contactstatus.base.Authentication;
 
 public class Utils {
 
@@ -19,9 +19,8 @@ public class Utils {
         editor.commit();
     }
 
-    public static SharedPreferences.Editor getEditor(String prefs, Context context) {
+    private static SharedPreferences.Editor getEditor(String prefs, Context context) {
         SharedPreferences settings = context.getSharedPreferences(prefs, Context.MODE_PRIVATE);
         return settings.edit();
     }
-
 }

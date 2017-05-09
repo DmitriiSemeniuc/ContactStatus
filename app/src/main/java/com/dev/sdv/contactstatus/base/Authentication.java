@@ -1,4 +1,4 @@
-package com.dev.sdv.contactstatus.auth;
+package com.dev.sdv.contactstatus.base;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,17 +9,17 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Authentication {
 
-    public static final String TAG = Authentication.class.getSimpleName();
+    private static final String TAG = Authentication.class.getSimpleName();
     private String userType;
     private FirebaseAuth firebaseAuth;
     private GoogleApiClient googleApiClient;
 
-    public static enum UserType{NONE, EMAIL, GOOGLE}
+    public enum UserType{NONE, EMAIL, GOOGLE}
 
     public void setUserType(String userType, Context context){
         this.userType = userType;
-        Utils.setUserInPrefs(userType.toString(), context);
-        Log.d(TAG, "user type: " + userType.toString());
+        Utils.setUserInPrefs(userType, context);
+        Log.d(TAG, "user type: " + userType);
     }
 
     public String getUserType(){

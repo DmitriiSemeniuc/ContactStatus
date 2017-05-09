@@ -2,7 +2,7 @@ package com.dev.sdv.contactstatus;
 
 import android.app.Application;
 
-import com.dev.sdv.contactstatus.auth.Authentication;
+import com.dev.sdv.contactstatus.base.Authentication;
 
 public class App extends Application {
     private static Authentication auth;

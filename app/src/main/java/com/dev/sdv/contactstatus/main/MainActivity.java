@@ -9,9 +9,9 @@ import android.view.View;
 
 import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.R;
-import com.dev.sdv.contactstatus.SplashActivity;
-import com.dev.sdv.contactstatus.auth.Authentication;
-import com.dev.sdv.contactstatus.auth.GoogleAuthenticator;
+import com.dev.sdv.contactstatus.auth.AuthActivity;
+import com.dev.sdv.contactstatus.base.Authentication;
+import com.dev.sdv.contactstatus.base.GoogleAuthenticator;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -27,15 +27,13 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.disconnect_btn)
     AppCompatButton disconnectBtn;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
     }
 
-    @Override
-    protected void onStart() {
+    @Override protected void onStart() {
         if(Authentication.UserType.GOOGLE.toString().equals(App.getAuth().getUserType())){
             if(!App.getAuth().getGoogleApiClient().isConnected()){
                 App.getAuth().getGoogleApiClient().disconnect();
@@ -58,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
                     new ResultCallback<Status>() {
                         @Override
                         public void onResult(@NonNull Status status) {
-                            startActivity(new Intent(MainActivity.this, SplashActivity.class));
+                            startActivity(new Intent(MainActivity.this, AuthActivity.class));
                             finish();
                         }
                     });
         } else {
-            startActivity(new Intent(MainActivity.this, SplashActivity.class));
+            startActivity(new Intent(MainActivity.this, AuthActivity.class));
             finish();
         }
     }
@@ -79,12 +77,12 @@ public class MainActivity extends AppCompatActivity {
                     new ResultCallback<Status>() {
                         @Override
                         public void onResult(@NonNull Status status) {
-                            startActivity(new Intent(MainActivity.this, SplashActivity.class));
+                            startActivity(new Intent(MainActivity.this, AuthActivity.class));
                             finish();
                         }
                     });
         } else {
-            startActivity(new Intent(MainActivity.this, SplashActivity.class));
+            startActivity(new Intent(MainActivity.this, AuthActivity.class));
             finish();
         }
     }

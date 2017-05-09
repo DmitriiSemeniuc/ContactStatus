@@ -1,4 +1,4 @@
-package com.dev.sdv.contactstatus.auth;
+package com.dev.sdv.contactstatus.base;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,11 +12,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import static com.google.android.gms.internal.zzt.TAG;
-
 public class GoogleAuthenticator implements GoogleApiClient.OnConnectionFailedListener {
 
-    public static final String TAG = GoogleAuthenticator.class.getSimpleName();
+    private static final String TAG = GoogleAuthenticator.class.getSimpleName();
     private GoogleSignInOptions gso;
     private GoogleApiClient apiClient;
     private Context context;

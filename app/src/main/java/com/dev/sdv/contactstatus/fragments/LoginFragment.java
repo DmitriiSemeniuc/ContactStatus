@@ -10,13 +10,14 @@ import android.widget.EditText;
 
 import com.dev.sdv.contactstatus.R;
 import com.dev.sdv.contactstatus.auth.AuthActivity;
+import com.dev.sdv.contactstatus.auth.AuthView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements AuthView.LoginView{
 
     public static final String FRAGMENT_TAG = LoginFragment.class.getSimpleName();
 
@@ -40,23 +41,23 @@ public class LoginFragment extends Fragment {
     }
 
     @OnClick(R.id.login_btn)
-    public void loginWithEmail() {
+    @Override public void loginWithEmail() {
         if (validateForm()) {
             ((AuthActivity) getActivity()).loginWithEmail(loginEmailEditText.getText().toString(), loginPasswordEditText.getText().toString());
         }
     }
 
     @OnClick(R.id.login_with_google_btn)
-    public void loginWithGoogle() {
+    @Override public void loginWithGoogle() {
         ((AuthActivity) getActivity()).signInWithGoogle();
     }
 
     @OnClick(R.id.login_sign_in_rl)
-    public void goToSignInScreen() {
+    @Override public void goToSignInScreen() {
         ((AuthActivity) getActivity()).displaySignInForm();
     }
 
-    private boolean validateForm() {
+    @Override public boolean validateForm() {
         boolean valid = true;
 
         String email = loginEmailEditText.getText().toString();

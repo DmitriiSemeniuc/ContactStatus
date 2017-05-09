@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.dev.sdv.contactstatus.R;
 import com.dev.sdv.contactstatus.auth.AuthActivity;
+import com.dev.sdv.contactstatus.auth.AuthView;
 import com.google.android.gms.common.SignInButton;
 
 import butterknife.BindView;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class SignInFragment extends Fragment {
+public class SignInFragment extends Fragment implements AuthView.SignInView {
 
     public static final String FRAGMENT_TAG = LoginFragment.class.getSimpleName();
 
@@ -35,32 +36,30 @@ public class SignInFragment extends Fragment {
     RelativeLayout loginLinkRl;
     private Unbinder unbinder;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
+    @Override public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
     @OnClick(R.id.sign_in_btn)
-    public void signIn() {
+    @Override public void signIn() {
         if (validateForm()) {
             ((AuthActivity) getActivity()).createAccount(signInEmailEditText.getText().toString(), signInPasswordEditText.getText().toString());
         }
     }
 
     @OnClick(R.id.sign_in_login_rl)
-    public void goToLoginScreen() {
+    @Override public void goToLoginScreen() {
         ((AuthActivity) getActivity()).displayLoginForm();
     }
 
-    private boolean validateForm() {
+    @Override public boolean validateForm() {
         boolean valid = true;
 
         String email = signInEmailEditText.getText().toString();
