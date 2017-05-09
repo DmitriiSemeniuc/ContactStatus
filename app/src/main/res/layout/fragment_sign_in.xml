@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_sign_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".auth.AuthActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue_800"
+        android:focusableInTouchMode="true">
+
+        <RelativeLayout
+            android:id="@+id/sign_in_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/sign_in_email_et"
+                style="@style/loginField"
+                android:hint="@string/hint_email"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:inputType="textEmailAddress"/>
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/sign_in_password_et"
+                style="@style/loginField"
+                android:layout_below="@+id/sign_in_email_et"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:hint="@string/hint_password"
+                android:inputType="textVisiblePassword"/>
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/sign_in_confirm_password_et"
+                style="@style/loginField"
+                android:layout_below="@+id/sign_in_password_et"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:hint="@string/hint_confirm_password"
+                android:inputType="textVisiblePassword"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/sign_in_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sign_in_confirm_password_et"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:textColor="@android:color/black"
+                android:text="@string/sign_in"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sign_in_login_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/sign_in_login_question_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Already have an account?"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/sign_in_login_link_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/sign_in_login_question_tv"
+                android:layout_toRightOf="@+id/sign_in_login_question_tv"
+                android:fontFamily="sans-serif"
+                android:text="@string/login"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

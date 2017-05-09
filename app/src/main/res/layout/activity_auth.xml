@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_container_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".auth.AuthActivity"
+    android:orientation="vertical"
+    android:background="@color/blue_800">
+    <LinearLayout
+        android:id="@+id/fragment_container_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </LinearLayout>
+</RelativeLayout>
+<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_login_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".auth.AuthActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        android:focusableInTouchMode="true">
+
+        <RelativeLayout
+            android:id="@+id/login_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/login_email_et"
+                style="@style/loginField"
+                android:hint="email"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:inputType="textEmailAddress"/>
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/login_email_confirm_et"
+                style="@style/loginField"
+                android:layout_below="@+id/login_email_et"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:hint="confirm email"
+                android:inputType="textEmailAddress"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/login_password_et"
+                style="@style/loginField"
+                android:layout_below="@+id/login_email_confirm_et"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:hint="password"
+                android:inputType="textVisiblePassword"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_password_et"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:textColor="@android:color/black"
+                android:text="@string/login"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/registr_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_btn"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:textColor="@android:color/black"
+                android:text="@string/registr"
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:id="@+id/login_line_separator_rl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/registr_btn"
+                android:layout_centerInParent="true">
+
+                <View
+                    android:id="@+id/login_divider_1_v"
+                    android:layout_width="100dp"
+                    android:layout_height="1px"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/white"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/login_or_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/login_divider_1_v"
+                    android:layout_toRightOf="@+id/login_divider_1_v"
+                    android:fontFamily="monospace"
+                    android:text="or"
+                    android:textColor="@android:color/white"/>
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="1px"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/login_or_tv"
+                    android:layout_toRightOf="@+id/login_or_tv"
+                    android:background="@android:color/white"/>
+            </RelativeLayout>
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/login_with_google_btn"
+                style="@style/Login"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/login_line_separator_rl"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:buttonSize="wide"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_registration_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/login_registration_question_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Do not have account yet?"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/login_registration_link_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/login_registration_question_tv"
+                android:layout_toRightOf="@+id/login_registration_question_tv"
+                android:fontFamily="sans-serif"
+                android:text="Registration"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/registration_login_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:visibility="gone">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/registration_login_question_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Already have account?"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/registration_login_link_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/registration_login_question_tv"
+                android:layout_toRightOf="@+id/registration_login_question_tv"
+                android:fontFamily="sans-serif"
+                android:text="Sign In"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
+-->
