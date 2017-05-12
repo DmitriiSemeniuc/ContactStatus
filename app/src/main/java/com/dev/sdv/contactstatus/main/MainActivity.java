@@ -2,13 +2,16 @@ package com.dev.sdv.contactstatus.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,9 +20,13 @@ import android.widget.Toast;
 
 import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.R;
+import com.dev.sdv.contactstatus.adapters.MainViewPagerAdapter;
 import com.dev.sdv.contactstatus.auth.AuthActivity;
 import com.dev.sdv.contactstatus.base.Authentication;
 import com.dev.sdv.contactstatus.base.BaseActivity;
+import com.dev.sdv.contactstatus.fragments.ContactsFragment;
+import com.dev.sdv.contactstatus.fragments.NotificationsFragment;
+import com.dev.sdv.contactstatus.fragments.StatusFragment;
 import com.dev.sdv.contactstatus.models.User;
 import com.dev.sdv.contactstatus.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
@@ -28,7 +35,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements MainView, NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,6 +46,12 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.toolbar_main) Toolbar toolbar;
+    private ContactsFragment contactsFragment;
+    private StatusFragment statusFragment;
+    private NotificationsFragment notificationsFragment;
+    private ViewPager viewPager;
+    private BottomNavigationView bottomNavigationView;
+    private MenuItem prevMenuItem;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         App.getInstance().getComponent().inject(this);
@@ -51,11 +63,48 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         if(Authentication.isGoogleUser()) presenter.reconnectGoogleApiClient(this);
         initSupportActionBar();
         initNavigationDrawer();
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        viewPager = (ViewPager) findViewById(R.id.bottom_viewpager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override public void onPageSelected(int position) {
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                } else {
+                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                }
+                Log.d("page", "onPageSelected: "+ position);
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+
+            }
+
+            @Override public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        setupViewPager(viewPager);
     }
 
-    @OnClick(R.id.fab) public void someMethod(){
-        Toast.makeText(this, "Fab pressed", Toast.LENGTH_SHORT).show();
+    private void setupViewPager(ViewPager viewPager) {
+        MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
+        contactsFragment = new ContactsFragment();
+        statusFragment = new StatusFragment();
+        notificationsFragment = new NotificationsFragment();
+        adapter.addFragment(contactsFragment);
+        adapter.addFragment(statusFragment);
+        adapter.addFragment(notificationsFragment);
+        viewPager.setAdapter(adapter);
     }
+
+    /*@OnClick(R.id.fab) public void someMethod(){
+        Toast.makeText(this, "Fab pressed", Toast.LENGTH_SHORT).show();
+    }*/
 
     @Override public void setPresenter(MainPresenter presenter) {
         this.presenter = presenter;
@@ -92,21 +141,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         navHeaderEmailTV.setText(user.getEmail());
     }
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_activity, menu);
-        return true;
-    }
-
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -128,4 +162,26 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
             super.onBackPressed();
         }
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_contacts:
+                    Toast.makeText(getApplicationContext(), "Contacts", Toast.LENGTH_SHORT).show();
+                    viewPager.setCurrentItem(0);
+                    return true;
+                case R.id.navigation_status:
+                    Toast.makeText(getApplicationContext(), "Status", Toast.LENGTH_SHORT).show();
+                    viewPager.setCurrentItem(1);
+                    return true;
+                case R.id.navigation_notifications:
+                    Toast.makeText(getApplicationContext(), "Notifications", Toast.LENGTH_SHORT).show();
+                    viewPager.setCurrentItem(2);
+                    return true;
+            }
+            return false;
+        }
+    };
 }
