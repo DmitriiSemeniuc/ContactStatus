@@ -3,9 +3,11 @@ package com.dev.sdv.contactstatus.base;
 import android.content.Context;
 import android.util.Log;
 
+import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.utils.Utils;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Authentication {
 
@@ -40,5 +42,13 @@ public class Authentication {
 
     public FirebaseAuth getFirebaseAuth(){
         return firebaseAuth;
+    }
+
+    public static boolean isGoogleUser(){
+        return UserType.GOOGLE.toString().equals(App.getAuth().getUserType());
+    }
+
+    public static FirebaseUser getCurrentUser(){
+        return App.getAuth().getFirebaseAuth().getCurrentUser();
     }
 }

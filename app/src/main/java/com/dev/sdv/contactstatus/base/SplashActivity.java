@@ -1,12 +1,12 @@
-package com.dev.sdv.contactstatus;
+package com.dev.sdv.contactstatus.base;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 
+import com.dev.sdv.contactstatus.R;
 import com.dev.sdv.contactstatus.auth.AuthActivity;
-import com.dev.sdv.contactstatus.base.BaseActivity;
 
 public class SplashActivity extends BaseActivity {
 

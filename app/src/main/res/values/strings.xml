@@ -35,4 +35,13 @@
     <!-- Errors -->
     <string name="field_required">Field is required!</string>
     <string name="passwords_do_not_match">Passwords do not match!</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="share">Share</string>
 </resources>

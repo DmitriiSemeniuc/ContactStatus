@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-class AuthPresenterImpl implements AuthPresenter, AuthInteractor.OnGoogleLoginListener,
+public class AuthPresenterImpl implements AuthPresenter, AuthInteractor.OnGoogleLoginListener,
         AuthInteractor.OnLoginListener {
 
     private AuthView authView;
@@ -17,61 +17,56 @@ class AuthPresenterImpl implements AuthPresenter, AuthInteractor.OnGoogleLoginLi
         this.authInteractor = new AuthInteractorImpl(context);
     }
 
-    @Override
-    public void initAuth(Context context, FragmentActivity fragmentActivity) {
+    @Override public void initAuth(Context context, FragmentActivity fragmentActivity) {
         authInteractor.initAuth(context, fragmentActivity);
     }
 
-    @Override
-    public void verifyIfUserSignedIn() {
-        if(authInteractor.getCurrentUser() != null) {
-            authView.navigateToMain();
-        }
+    @Override public void verifyIfUserSignedIn() {
+        authInteractor.verifyIfUserSignedIn(this);
     }
 
-    @Override
-    public void onSignInWithGoogle(Intent data) {
+    @Override public void onSignInWithGoogle(Intent data) {
         authInteractor.onSignInWithGoogle(data, this);
     }
 
-    @Override
-    public void createAccount(String email, String password) {
-        authView.showProgress();
+    @Override public void createAccount(String email, String password) {
+        if (authView != null) authView.showProgress();
         authInteractor.createAccount(email, password, this);
     }
 
-    @Override
-    public void loginWithEmail(String email, String password) {
+    @Override public void loginWithEmail(String email, String password) {
         authInteractor.loginWithEmail(email, password, this);
     }
 
-    @Override
-    public void onGoogleLoginSuccess(GoogleSignInAccount account) {
-        authView.showProgress();
+    @Override public void onGoogleLoginSuccess(GoogleSignInAccount account) {
+        if (authView != null) authView.showProgress();
         // Google Sign In was successful, authenticate with Firebase
         authInteractor.firebaseAuthWithGoogle(account, this);
     }
 
-    @Override
-    public void onGoogleLoginFailed(String error) {
-        authView.hideProgress();
-        authView.showLoginError(error);
+    @Override public void onGoogleLoginFailed(String error) {
+        if (authView != null) {
+            authView.hideProgress();
+            authView.showLoginError(error);
+        }
     }
 
-    @Override
-    public void onLoginSuccess() {
-        authView.hideProgress();
-        authView.navigateToMain();
+    @Override public void onLoginSuccess() {
+        authInteractor.setCurrentUser();
+        if (authView != null) {
+            authView.hideProgress();
+            authView.navigateToMain();
+        }
     }
 
-    @Override
-    public void onLoginFailed(String error) {
-        authView.hideProgress();
-        authView.showLoginError(error);
+    @Override public void onLoginFailed(String error) {
+        if (authView != null) {
+            authView.hideProgress();
+            authView.showLoginError(error);
+        }
     }
 
-    @Override
-    public void onDestroy() {
+    @Override public void onDestroy() {
         authView = null;
     }
 }

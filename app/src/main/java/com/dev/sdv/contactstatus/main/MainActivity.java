@@ -1,93 +1,131 @@
 package com.dev.sdv.contactstatus.main;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.R;
 import com.dev.sdv.contactstatus.auth.AuthActivity;
 import com.dev.sdv.contactstatus.base.Authentication;
-import com.dev.sdv.contactstatus.base.GoogleAuthenticator;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.dev.sdv.contactstatus.base.BaseActivity;
+import com.dev.sdv.contactstatus.models.User;
+import com.dev.sdv.contactstatus.utils.CircleTransform;
+import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements MainView, NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    private MainPresenter presenter;
 
-    @BindView(R.id.disconnect_btn)
-    AppCompatButton disconnectBtn;
+    @Inject User user;
+
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.toolbar_main) Toolbar toolbar;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
+        App.getInstance().getComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setStatusBarColor(ContextCompat.getColor(this, R.color.blue_800));
+        setPresenter(new MainPresenterImpl(this, this));
+        if(Authentication.isGoogleUser()) presenter.reconnectGoogleApiClient(this);
+        initSupportActionBar();
+        initNavigationDrawer();
     }
 
-    @Override protected void onStart() {
-        if(Authentication.UserType.GOOGLE.toString().equals(App.getAuth().getUserType())){
-            if(!App.getAuth().getGoogleApiClient().isConnected()){
-                App.getAuth().getGoogleApiClient().disconnect();
-            }
-            App.getAuth().setGoogleApiClient(new GoogleAuthenticator(this, this).getApiClient());
-            App.getAuth().getGoogleApiClient().connect();
-            showDisconnectBtn();
+    @OnClick(R.id.fab) public void someMethod(){
+        Toast.makeText(this, "Fab pressed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override public void setPresenter(MainPresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override public void startAuthActivity() {
+        startActivity(new Intent(MainActivity.this, AuthActivity.class));
+        finish();
+    }
+
+    private void initSupportActionBar() {
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
         }
-        super.onStart();
     }
 
-    @OnClick(R.id.sign_out_btn)
-    public void signOut() {
-        // Firebase sign out
-        App.getAuth().getFirebaseAuth().signOut();
+    private void initNavigationDrawer() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-        if (Authentication.UserType.GOOGLE.toString().equals(App.getAuth().getUserType())) {
-            // Google sign out
-            Auth.GoogleSignInApi.signOut(App.getAuth().getGoogleApiClient()).setResultCallback(
-                    new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(@NonNull Status status) {
-                            startActivity(new Intent(MainActivity.this, AuthActivity.class));
-                            finish();
-                        }
-                    });
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View navHeaderView = navigationView.getHeaderView(0);
+        ImageView navHeaderPhotoIV = (ImageView) navHeaderView.findViewById(R.id.nav_header_photo_iv);
+        TextView navHeaderNameTV = (TextView) navHeaderView.findViewById(R.id.nav_header_name_tv);
+        TextView navHeaderEmailTV = (TextView) navHeaderView.findViewById(R.id.nav_header_email_tv);
+
+        Picasso.with(this).load(user.getPhotoUrl()).transform(new CircleTransform()).into(navHeaderPhotoIV);
+        navHeaderNameTV.setText(user.getName());
+        navHeaderEmailTV.setText(user.getEmail());
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_activity, menu);
+        return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_share) {
+            showToast("Share the app");
+        } else if (id == R.id.nav_sign_out) {
+            presenter.signOut();
+        } else if (id == R.id.nav_disconnect) {
+            presenter.disconnect();
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
-            startActivity(new Intent(MainActivity.this, AuthActivity.class));
-            finish();
+            super.onBackPressed();
         }
-    }
-
-    @OnClick(R.id.disconnect_btn)
-    public void disconnect() {
-        // Firebase sign out
-        App.getAuth().getFirebaseAuth().signOut();
-
-        if (Authentication.UserType.GOOGLE.toString().equals(App.getAuth().getUserType())) {
-            // Google revoke access
-            Auth.GoogleSignInApi.revokeAccess(App.getAuth().getGoogleApiClient()).setResultCallback(
-                    new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(@NonNull Status status) {
-                            startActivity(new Intent(MainActivity.this, AuthActivity.class));
-                            finish();
-                        }
-                    });
-        } else {
-            startActivity(new Intent(MainActivity.this, AuthActivity.class));
-            finish();
-        }
-    }
-
-    private void showDisconnectBtn() {
-        disconnectBtn.setVisibility(View.VISIBLE);
     }
 }

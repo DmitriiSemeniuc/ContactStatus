@@ -11,8 +11,6 @@ interface AuthInteractor {
 
     void initAuth(Context context, FragmentActivity fragmentActivity);
 
-    FirebaseUser getCurrentUser();
-
     void onSignInWithGoogle(Intent data, OnGoogleLoginListener listener);
 
     void firebaseAuthWithGoogle(GoogleSignInAccount account, OnLoginListener listener);
@@ -20,6 +18,10 @@ interface AuthInteractor {
     void createAccount(String email, String password, OnLoginListener listener);
 
     void loginWithEmail(String email, String password, OnLoginListener listener);
+
+    void verifyIfUserSignedIn(OnLoginListener listener);
+
+    void setCurrentUser();
 
     interface OnGoogleLoginListener {
 
