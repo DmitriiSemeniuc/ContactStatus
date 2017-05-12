@@ -45,4 +45,21 @@
     <string name="action_settings">Settings</string>
     <string name="share">Share</string>
     <string name="title_activity_main_bottom">MainActivityBottom</string>
+
+    <!-- status page-->
+    <string name="auto_change_status">Auto change status</string>
+    <string name="available">Available</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="oncall">On call</string>
+    <string name="unknown">Uknown</string>
+    <string name="line">Line:</string>
+    <string name="battery">Battery:</string>
+    <string name="normal">Normal</string>
+    <string name="low">Low</string>
+    <string name="network">Network:</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="limited">Limited</string>
+    <string name="mode">Mode:</string>
+    <string name="silent">Silent</string>
+    <string name="show_location">Show location</string>
 </resources>

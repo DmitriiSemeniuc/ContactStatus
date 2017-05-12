@@ -1,10 +1,375 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/auto_change_status_rl"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Status"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_margin="5dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/StatusTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_change_status"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/auto_change_status_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:theme="@style/Switch"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/line_separator_1_v"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_margin="10dp"
+        android:background="@color/blue_600"/>
+
+    <RelativeLayout
+        android:id="@+id/call_availability_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/call_title"
+            style="@style/StatusTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:text="@string/line"
+            android:textColor="@color/blue_700"
+            android:textStyle="bold"/>
+
+        <RadioGroup
+            android:id="@+id/call_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="75dp"
+                android:src="@drawable/ic_phone_available"/>
+
+            <TextView
+                android:id="@+id/available_radiobtn_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/available"
+                android:textColor="@color/green_800"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/available_radiobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                app:buttonTint="@color/green_800"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_phone_in_talk"/>
+
+            <TextView
+                android:id="@+id/oncall_radiobtn_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/oncall"
+                android:textColor="@color/red_800"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/oncall_radiobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                app:buttonTint="@color/red_800"/>
+
+        </RadioGroup>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/battery_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/battery_title"
+            style="@style/StatusTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:text="@string/battery"
+            android:textColor="@color/blue_700"
+            android:textStyle="bold"/>
+
+        <RadioGroup
+            android:id="@+id/battery_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="75dp"
+                android:src="@drawable/ic_battery_normal"/>
+
+            <TextView
+                android:id="@+id/full_radiobtn_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/normal"
+                android:textColor="@color/green_800"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/battery_good_radiobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                app:buttonTint="@color/green_800"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_battery_low"/>
+
+            <TextView
+                android:id="@+id/battery_low_radiobtn_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/low"
+                android:textColor="@color/red_800"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/battery_low_radiobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                app:buttonTint="@color/red_800"/>
+
+        </RadioGroup>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/network_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/network_title"
+            style="@style/StatusTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:text="@string/network"
+            android:textColor="@color/blue_700"
+            android:textStyle="bold"/>
+
+        <RadioGroup
+            android:id="@+id/network_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="75dp"
+                android:src="@drawable/ic_wifi"/>
+
+            <TextView
+                android:id="@+id/unlimited_radiobtn_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/unlimited"
+                android:textColor="@color/green_800"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/network_unlimited_radiobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                app:buttonTint="@color/green_800"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_mobile_net"/>
+
+            <TextView
+                android:id="@+id/limited_radiobtn_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/limited"
+                android:textColor="@color/red_800"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/network_limited_radiobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                app:buttonTint="@color/red_800"/>
+
+        </RadioGroup>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mode_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/mode_title"
+            style="@style/StatusTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:text="@string/mode"
+            android:textColor="@color/blue_700"
+            android:textStyle="bold"/>
+
+        <RadioGroup
+            android:id="@+id/mode_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="75dp"
+                android:src="@drawable/ic_sound_on"/>
+
+            <TextView
+                android:id="@+id/mode_normal_radiobtn_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/normal"
+                android:textColor="@color/green_800"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/mode_normal_radiobtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                app:buttonTint="@color/green_800"/>
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_sound_off"/>
+
+            <TextView
+                android:id="@+id/mode_silent_radiobtn_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/silent"
+                android:textColor="@color/red_800"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/mode_silent_radiobtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                app:buttonTint="@color/red_800"/>
+
+        </RadioGroup>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/status_msg_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/status_msg_icon_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_status_message"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/status_msg_icon_iv"
+            android:hint="Status message"
+            android:inputType="text|textCapSentences|textMultiLine"
+            android:minLines="2"
+            android:textColorHint="@color/blue_800"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/line_separator_2_v"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_margin="10dp"
+        android:background="@color/blue_600"/>
+
+    <RelativeLayout
+        android:id="@+id/location_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/StatusTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_location"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/show_location_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:theme="@style/Switch"/>
+    </RelativeLayout>
+
+
 </LinearLayout>
