@@ -8,8 +8,10 @@ public class User {
     private String name;
     private String email;
     private Uri photoUrl;
+    private Status status;
 
     public User(){
+        status = new Status();
     }
 
     public String getUid() {
@@ -42,5 +44,13 @@ public class User {
 
     public void setPhotoUrl(Uri photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

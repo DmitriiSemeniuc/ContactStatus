@@ -6,6 +6,7 @@ import com.dev.sdv.contactstatus.base.AppComponent;
 import com.dev.sdv.contactstatus.base.Authentication;
 import com.dev.sdv.contactstatus.base.DaggerAppComponent;
 import com.dev.sdv.contactstatus.modules.AppModule;
+import com.dev.sdv.contactstatus.modules.PrefsModule;
 import com.dev.sdv.contactstatus.modules.UserModule;
 
 import dagger.internal.DaggerCollections;
@@ -35,6 +36,7 @@ public class App extends Application {
         return DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .userModule(new UserModule())
+                .prefsModule(new PrefsModule())
                 .build();
     }
 

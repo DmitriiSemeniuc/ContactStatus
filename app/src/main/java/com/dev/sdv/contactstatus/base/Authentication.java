@@ -20,7 +20,7 @@ public class Authentication {
 
     public void setUserType(String userType, Context context){
         this.userType = userType;
-        Utils.setUserInPrefs(userType, context);
+        //Utils.setUserInPrefs(userType, context);
         Log.d(TAG, "user type: " + userType);
     }
 

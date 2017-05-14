@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:itemBackground="@color/blue_700"
+        android:background="@android:color/white"
+        app:elevation="16dp"
         app:itemIconTint="@drawable/main_bottom_nav_item_color_state"
         app:itemTextColor="@drawable/main_bottom_nav_item_color_state"
         app:menu="@menu/menu_main_navigation" />
