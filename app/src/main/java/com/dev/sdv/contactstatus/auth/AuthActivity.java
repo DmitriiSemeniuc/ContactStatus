@@ -21,8 +21,6 @@ public class AuthActivity extends BaseActivity implements AuthView {
     private static final int RC_SIGN_IN = 9001;
     private AuthPresenter presenter;
 
-    @Inject User user;
-
     @Override protected void onCreate(Bundle savedInstanceState) {
         ((App) getApplication()).getComponent().inject(this);
         super.onCreate(savedInstanceState);

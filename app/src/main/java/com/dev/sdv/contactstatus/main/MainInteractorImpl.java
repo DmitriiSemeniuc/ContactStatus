@@ -9,17 +9,24 @@ import android.util.Log;
 import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.base.Authentication;
 import com.dev.sdv.contactstatus.base.GoogleAuthenticator;
+import com.dev.sdv.contactstatus.db.DbHelper;
+import com.dev.sdv.contactstatus.repository.StatusRepository;
+import com.dev.sdv.contactstatus.repository.UserRepository;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 
-class MainInteractorImpl implements MainInteractor {
+import javax.inject.Inject;
+
+public class MainInteractorImpl implements MainInteractor {
 
     private Context context;
+    @Inject StatusRepository statusRepository;
 
     MainInteractorImpl(Context context){
+        App.getInstance().getComponent().inject(this);
         this.context = context;
     }
 
@@ -37,12 +44,7 @@ class MainInteractorImpl implements MainInteractor {
         if (Authentication.isGoogleUser()) {
             // Google sign out
             Auth.GoogleSignInApi.signOut(App.getAuth().getGoogleApiClient()).setResultCallback(
-                    new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(@NonNull Status status) {
-                            listener.onSignOut();
-                        }
-                    });
+                    status -> listener.onSignOut());
         } else {
             listener.onSignOut();
         }
@@ -55,14 +57,13 @@ class MainInteractorImpl implements MainInteractor {
         if (Authentication.isGoogleUser()) {
             // Google revoke access
             Auth.GoogleSignInApi.revokeAccess(App.getAuth().getGoogleApiClient()).setResultCallback(
-                    new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(@NonNull Status status) {
-                            listener.onSignOut();
-                        }
-                    });
+                    status -> listener.onSignOut());
         } else {
             listener.onSignOut();
         }
+    }
+
+    @Override public void saveStatusToDb(com.dev.sdv.contactstatus.models.Status status, DbHelper.OnStatusChangeListener listener) {
+        statusRepository.saveStatus(status, listener);
     }
 }

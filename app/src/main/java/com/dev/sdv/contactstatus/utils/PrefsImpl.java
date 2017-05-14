@@ -5,6 +5,17 @@ import android.content.SharedPreferences;
 
 public class PrefsImpl implements Prefs, Prefs.Status {
 
+    @Override public void setStatusId(String id, Context context) {
+        SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
+        editor.putString(Const.STATUS.STATUS_ID, "");
+        editor.commit();
+    }
+
+    @Override public String getStatusid(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
+        return settings.getString(Const.STATUS.STATUS_ID, "");
+    }
+
     @Override public void setAutoChangeStatus(boolean autoChange, Context context) {
         SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
         editor.putBoolean(Const.STATUS.AUTO_CHANGE, autoChange);

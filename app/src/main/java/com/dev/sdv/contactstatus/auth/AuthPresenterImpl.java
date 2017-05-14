@@ -4,10 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
+import com.dev.sdv.contactstatus.db.DbHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 public class AuthPresenterImpl implements AuthPresenter, AuthInteractor.OnGoogleLoginListener,
-        AuthInteractor.OnLoginListener {
+        AuthInteractor.OnLoginListener, DbHelper.OnUserChangeListener {
 
     private AuthView authView;
     private AuthInteractor authInteractor;
@@ -53,10 +54,7 @@ public class AuthPresenterImpl implements AuthPresenter, AuthInteractor.OnGoogle
 
     @Override public void onLoginSuccess() {
         authInteractor.setCurrentUser();
-        if (authView != null) {
-            authView.hideProgress();
-            authView.navigateToMain();
-        }
+        authInteractor.createUser(this);
     }
 
     @Override public void onLoginFailed(String error) {
@@ -68,5 +66,19 @@ public class AuthPresenterImpl implements AuthPresenter, AuthInteractor.OnGoogle
 
     @Override public void onDestroy() {
         authView = null;
+    }
+
+    @Override public void onUserChangeSuccess() {
+        if (authView != null) {
+            authView.hideProgress();
+            authView.navigateToMain();
+        }
+    }
+
+    @Override public void onUserChangeFailed(String error) {
+        if (authView != null) {
+            authView.hideProgress();
+            authView.showLoginError(error);
+        }
     }
 }

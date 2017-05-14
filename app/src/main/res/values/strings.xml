@@ -47,7 +47,7 @@
     <string name="title_activity_main_bottom">MainActivityBottom</string>
 
     <!-- status page-->
-    <string name="auto_change_status">Change status automatically</string>
+    <string name="auto_change_status">Auto change status</string>
     <string name="available">Available</string>
     <string name="unavailable">Unavailable</string>
     <string name="oncall">On call</string>
@@ -63,5 +63,7 @@
     <string name="silent">Silent</string>
     <string name="show_location">Show location</string>
     <string name="save">Save</string>
-    <string name="enter_status">Enter status ...</string>
+    <string name="enter_status">Enter status &#8230;</string>
+    <string name="status_changed_successfully">Status updated</string>
+    <string name="status_change_failed">Status update failed</string>
 </resources>

@@ -11,12 +11,12 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public final class UserModule {
+public class StatusModule {
 
     @Provides
     @NonNull
     @Singleton
-    public User provideUser() {
-        return new User();
+    public Status provideStatus() {
+        return new Status();
     }
 }

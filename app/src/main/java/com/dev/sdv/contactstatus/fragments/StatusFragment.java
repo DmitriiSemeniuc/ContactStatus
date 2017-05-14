@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 
 import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.R;
+import com.dev.sdv.contactstatus.main.MainActivity;
 import com.dev.sdv.contactstatus.models.Status;
 import com.dev.sdv.contactstatus.models.User;
 import com.dev.sdv.contactstatus.utils.PrefsImpl;
@@ -40,12 +41,12 @@ public class StatusFragment extends Fragment {
     SwitchCompat autoChangeStatusSwitch;
     @BindView(R.id.show_location_switch)
     SwitchCompat showLocationSwitch;
-    @BindView(R.id.available_for_call_radiogroup)
-    RadioGroup callAvailabilityRadioGroup;
-    @BindView(R.id.available_for_call_radiobtn)
-    RadioButton availableForCallRadioBtn;
-    @BindView(R.id.oncall_radiobtn)
-    RadioButton onCallRadioBtn;
+    @BindView(R.id.free_line_radiogroup)
+    RadioGroup freeLineRadioGroup;
+    @BindView(R.id.free_line_radiobtn)
+    RadioButton freeLineRadioBtn;
+    @BindView(R.id.busy_line_radiobtn)
+    RadioButton busyLineRadioBtn;
     @BindView(R.id.battery_radiogroup)
     RadioGroup batteryStateRadioGroup;
     @BindView(R.id.battery_full_radiobtn)
@@ -79,6 +80,7 @@ public class StatusFragment extends Fragment {
     private Unbinder unbinder;
 
     @Inject User user;
+    @Inject Status status;
     @Inject PrefsImpl prefs;
 
     public StatusFragment() {
@@ -99,8 +101,8 @@ public class StatusFragment extends Fragment {
     }
 
     private void setListOfRadioBtns() {
-        radioBtns.add(availableForCallRadioBtn);
-        radioBtns.add(onCallRadioBtn);
+        radioBtns.add(freeLineRadioBtn);
+        radioBtns.add(busyLineRadioBtn);
         radioBtns.add(batteryFullRadioBtn);
         radioBtns.add(batteryLowRadioBtn);
         radioBtns.add(networkUnlimitedRadioBtn);
@@ -110,31 +112,31 @@ public class StatusFragment extends Fragment {
     }
 
     private void initStatusValues() {
-        Status userStatus = user.getStatus();
         // Show location
+        status.setUid(user.getUid());
         boolean showLocation = prefs.isShowLocation(getContext());
         showLocationSwitch.setChecked(showLocation);
-        userStatus.setShowLocation(showLocation);
+        status.setShowLocation(showLocation);
         // Change status automatically
-        boolean autoChangeStatus = prefs.isAutoChangeStatus(getContext());
-        autoChangeStatusSwitch.setChecked(autoChangeStatus);
-        userStatus.setAutoChange(autoChangeStatus);
+        boolean autoChange = prefs.isAutoChangeStatus(getContext());
+        autoChangeStatusSwitch.setChecked(autoChange);
+        status.setAutoChange(autoChange);
         // Call availability
-        boolean availableForCall = prefs.isAvailableForCall(getContext());
-        if(availableForCall){
-            availableForCallRadioBtn.setChecked(true);
+        boolean freeLine = prefs.isAvailableForCall(getContext());
+        if(freeLine){
+            freeLineRadioBtn.setChecked(true);
         } else {
-            onCallRadioBtn.setChecked(true);
+            busyLineRadioBtn.setChecked(true);
         }
-        userStatus.setLineAvailable(availableForCall);
+        status.setFreeLine(freeLine);
         // Battery state
-        boolean batteryStateNormal = prefs.isBatteryStateNormal(getContext());
-        if(batteryStateNormal){
+        boolean batteryFull = prefs.isBatteryStateNormal(getContext());
+        if(batteryFull){
             batteryFullRadioBtn.setChecked(true);
         } else {
             batteryLowRadioBtn.setChecked(true);
         }
-        userStatus.setBatteryNormal(batteryStateNormal);
+        status.setBatteryNormal(batteryFull);
         // Network state
         boolean networkUnlimited = prefs.isNetworkUnlimited(getContext());
         if(networkUnlimited){
@@ -142,21 +144,22 @@ public class StatusFragment extends Fragment {
         } else {
             networkLimitedRadioBtn.setChecked(true);
         }
-        userStatus.setNetworkUnlimited(networkUnlimited);
+        status.setNetworkUnlimited(networkUnlimited);
         // Sound mode
-        boolean soundModeNormal = prefs.isSoundModeNormal(getContext());
-        if(soundModeNormal){
+        boolean soundNormal = prefs.isSoundModeNormal(getContext());
+        if(soundNormal){
             soundModeNormalRadioBtn.setChecked(true);
         } else {
             soundModeSilentRadioBtn.setChecked(true);
         }
-        userStatus.setSoundModeNormal(soundModeNormal);
+        status.setSoundModeNormal(soundNormal);
         // Status message
-        String statusMsg = prefs.getStatusMessage(getContext());
-        if(!TextUtils.isEmpty(statusMsg)) {
-            statusMessageET.setText(statusMsg.trim());
+        String msg = prefs.getStatusMessage(getContext());
+        if(!TextUtils.isEmpty(msg)) {
+            statusMessageET.setText(msg.trim());
             editStatusMsgIV.setVisibility(View.VISIBLE);
         }
+        status.setStatusMessage(msg);
         saveStatusMsgIV.setVisibility(View.INVISIBLE);
         saveStatusBtn.setEnabled(false);
     }
@@ -171,13 +174,13 @@ public class StatusFragment extends Fragment {
         for(RadioButton btn : radioBtns){
             btn.setEnabled(true);
         }
-        if(user.getStatus().isLineAvailable()) availableForCallRadioBtn.setChecked(true);
-        else onCallRadioBtn.setChecked(true);
-        if(user.getStatus().isBatteryNormal()) batteryFullRadioBtn.setChecked(true);
+        if(status.isFreeLine()) freeLineRadioBtn.setChecked(true);
+        else busyLineRadioBtn.setChecked(true);
+        if(status.isBatteryNormal()) batteryFullRadioBtn.setChecked(true);
         else batteryLowRadioBtn.setChecked(true);
-        if(user.getStatus().isNetworkUnlimited()) networkUnlimitedRadioBtn.setChecked(true);
+        if(status.isNetworkUnlimited()) networkUnlimitedRadioBtn.setChecked(true);
         else networkLimitedRadioBtn.setChecked(true);
-        if(user.getStatus().isSoundModeNormal()) soundModeNormalRadioBtn.setChecked(true);
+        if(status.isSoundModeNormal()) soundModeNormalRadioBtn.setChecked(true);
         else soundModeSilentRadioBtn.setChecked(true);
     }
 
@@ -193,13 +196,13 @@ public class StatusFragment extends Fragment {
         saveStatusBtn.setEnabled(true);
     }
 
-    @OnClick(R.id.available_for_call_radiobtn)
-    public void onAvailableRadioBtnClicked(){
+    @OnClick(R.id.free_line_radiobtn)
+    public void onFreeLineRadioBtnClicked(){
         saveStatusBtn.setEnabled(true);
     }
 
-    @OnClick(R.id.oncall_radiobtn)
-    public void onOnCallRadioBtnClicked(){
+    @OnClick(R.id.busy_line_radiobtn)
+    public void onBusyLineRadioBtnClicked(){
         saveStatusBtn.setEnabled(true);
     }
 
@@ -235,8 +238,8 @@ public class StatusFragment extends Fragment {
 
     @OnTextChanged(R.id.status_msg_et)
     public void onStatusMessageChanged(CharSequence text) {
-        if (TextUtils.isEmpty(text)) user.getStatus().setStatusMessage("");
-        else user.getStatus().setStatusMessage(text.toString());
+        if (TextUtils.isEmpty(text)) status.setStatusMessage("");
+        else status.setStatusMessage(text.toString());
         editStatusMsgIV.setVisibility(View.INVISIBLE);
         saveStatusMsgIV.setVisibility(View.VISIBLE);
         saveStatusBtn.setEnabled(true);
@@ -280,15 +283,20 @@ public class StatusFragment extends Fragment {
         }
         setUserStatus();
         saveUserStateToPrefs();
+        saveStatusToDb();
+    }
+
+    private void saveStatusToDb() {
+        ((MainActivity) getActivity()).getPresenter().saveStatusToDb(status);
     }
 
     private void setUserStatus() {
-        Status status = user.getStatus();
+        status.setUid(user.getUid());
         status.setStatusMessage(statusMessageET.getText().toString());
         status.setShowLocation(showLocationSwitch.isChecked());
         status.setAutoChange(autoChangeStatusSwitch.isChecked());
         if(!autoChangeStatusSwitch.isChecked()){
-            status.setLineAvailable(availableForCallRadioBtn.isChecked());
+            status.setFreeLine(freeLineRadioBtn.isChecked());
             status.setNetworkUnlimited(networkUnlimitedRadioBtn.isChecked());
             status.setBatteryNormal(batteryFullRadioBtn.isChecked());
             status.setSoundModeNormal(soundModeNormalRadioBtn.isChecked());
@@ -297,9 +305,9 @@ public class StatusFragment extends Fragment {
     }
 
     private void saveUserStateToPrefs() {
-        Status status = user.getStatus();
+        prefs.setStatusId(user.getUid(), getContext());
         prefs.setAutoChangeStatus(status.isAutoChange(), getContext());
-        prefs.setAvailableForCall(status.isLineAvailable(), getContext());
+        prefs.setAvailableForCall(status.isFreeLine(), getContext());
         prefs.setBatteryStateNormal(status.isBatteryNormal(), getContext());
         prefs.setNetworkUnlimited(status.isNetworkUnlimited(), getContext());
         prefs.setShowLocation(status.isShowLocation(), getContext());

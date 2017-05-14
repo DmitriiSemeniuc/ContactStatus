@@ -102,17 +102,33 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         viewPager.setAdapter(adapter);
     }
 
-    /*@OnClick(R.id.fab) public void someMethod(){
-        Toast.makeText(this, "Fab pressed", Toast.LENGTH_SHORT).show();
-    }*/
-
     @Override public void setPresenter(MainPresenter presenter) {
         this.presenter = presenter;
+    }
+
+    public MainPresenter getPresenter(){
+        return presenter;
     }
 
     @Override public void startAuthActivity() {
         startActivity(new Intent(MainActivity.this, AuthActivity.class));
         finish();
+    }
+
+    @Override public void showProgress() {
+        showProgressDialog();
+    }
+
+    @Override public void hideProgress() {
+        hideProgressDialog();
+    }
+
+    @Override public void showStatusChangedSuccessfullyMsg() {
+        Toast.makeText(this, getString(R.string.status_changed_successfully), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override public void showStatusChangeFailedMsg() {
+        Toast.makeText(this, getString(R.string.status_change_failed), Toast.LENGTH_SHORT).show();
     }
 
     private void initSupportActionBar() {
@@ -142,7 +158,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-    @Override public boolean onNavigationItemSelected(MenuItem item) {
+    @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_share) {
             showToast("Share the app");

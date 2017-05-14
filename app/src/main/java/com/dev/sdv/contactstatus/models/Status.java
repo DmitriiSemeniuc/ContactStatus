@@ -2,25 +2,22 @@ package com.dev.sdv.contactstatus.models;
 
 import android.location.Location;
 
+import java.util.Date;
+
 public class Status {
 
-    long id;
-    boolean autoChange;
-    boolean showLocation;
-    Location location;
-    boolean lineAvailable;
-    boolean batteryNormal;
-    boolean networkUnlimited;
-    boolean soundModeNormal;
-    String statusMessage;
+    private boolean autoChange;
+    private  boolean showLocation;
+    private Location location;
+    private boolean freeLine;
+    private boolean batteryNormal;
+    private boolean networkUnlimited;
+    private boolean soundModeNormal;
+    private String statusMessage;
+    private Date lastTimeUpdated;
+    private String uid;
 
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public Status() {
     }
 
     public boolean isAutoChange() {
@@ -47,12 +44,12 @@ public class Status {
         this.location = location;
     }
 
-    public boolean isLineAvailable() {
-        return lineAvailable;
+    public boolean isFreeLine() {
+        return freeLine;
     }
 
-    public void setLineAvailable(boolean lineAvailable) {
-        this.lineAvailable = lineAvailable;
+    public void setFreeLine(boolean freeLine) {
+        this.freeLine = freeLine;
     }
 
     public boolean isBatteryNormal() {
@@ -87,17 +84,33 @@ public class Status {
         this.statusMessage = statusMessage;
     }
 
+    public Date getLastTimeUpdated() {
+        return lastTimeUpdated;
+    }
+
+    public void setLastTimeUpdated(Date lastTimeUpdated) {
+        this.lastTimeUpdated = lastTimeUpdated;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     @Override public String toString() {
         return "Status{" +
-                "id=" + id +
-                ", autoChange=" + autoChange +
+                "autoChange=" + autoChange +
                 ", showLocation=" + showLocation +
                 ", location=" + location +
-                ", lineAvailable=" + lineAvailable +
+                ", freeLine=" + freeLine +
                 ", batteryNormal=" + batteryNormal +
                 ", networkUnlimited=" + networkUnlimited +
                 ", soundModeNormal=" + soundModeNormal +
                 ", statusMessage='" + statusMessage + '\'' +
+                ", lastTimeUpdated=" + lastTimeUpdated +
                 '}';
     }
 }

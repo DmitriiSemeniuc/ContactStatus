@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
+import com.dev.sdv.contactstatus.db.DbHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.auth.FirebaseUser;
 
-interface AuthInteractor {
+public interface AuthInteractor {
 
     void initAuth(Context context, FragmentActivity fragmentActivity);
 
@@ -22,6 +22,8 @@ interface AuthInteractor {
     void verifyIfUserSignedIn(OnLoginListener listener);
 
     void setCurrentUser();
+
+    void createUser(DbHelper.OnUserChangeListener listener);
 
     interface OnGoogleLoginListener {
 

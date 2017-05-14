@@ -3,11 +3,15 @@ package com.dev.sdv.contactstatus.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public interface Prefs {
+interface Prefs {
 
     SharedPreferences.Editor getEditor(String prefs, Context context);
 
     interface Status {
+
+        void setStatusId(String id, Context context);
+
+        String getStatusid(Context context);
 
         void setAutoChangeStatus(boolean autoChange, Context context);
 

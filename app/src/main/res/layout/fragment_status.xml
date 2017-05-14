@@ -21,10 +21,12 @@
             android:layout_marginTop="10dp">
 
             <LinearLayout
+                android:id="@+id/dummy"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:layout_width="0px"
-                android:layout_height="0px"/>
+                android:layout_height="0px"
+                android:orientation="horizontal"/>
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/status_msg_icon_iv"
@@ -128,13 +130,13 @@
             android:background="@color/blue_200"/>
 
         <RelativeLayout
-            android:id="@+id/call_availability_rl"
+            android:id="@+id/free_line_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
 
             <TextView
-                android:id="@+id/call_title"
+                android:id="@+id/free_line_title"
                 style="@style/StatusTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,7 +147,7 @@
                 android:textStyle="bold"/>
 
             <RadioGroup
-                android:id="@+id/available_for_call_radiogroup"
+                android:id="@+id/free_line_radiogroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -155,10 +157,11 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="75dp"
-                    android:src="@drawable/ic_phone_available"/>
+                    android:src="@drawable/ic_phone_available"
+                    android:contentDescription="@string/available"/>
 
                 <TextView
-                    android:id="@+id/available_for_call_tv"
+                    android:id="@+id/free_line_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
@@ -168,7 +171,7 @@
                     />
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/available_for_call_radiobtn"
+                    android:id="@+id/free_line_radiobtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:buttonTint="@color/green_800"/>
@@ -177,10 +180,11 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_phone_in_talk"/>
+                    android:src="@drawable/ic_phone_in_talk"
+                    android:contentDescription="@string/oncall"/>
 
                 <TextView
-                    android:id="@+id/oncall_radiobtn_tv"
+                    android:id="@+id/busy_line_radiobtn_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
@@ -189,7 +193,7 @@
                     android:textColor="@color/red_800"/>
 
                 <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/oncall_radiobtn"
+                    android:id="@+id/busy_line_radiobtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
@@ -226,7 +230,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="75dp"
-                    android:src="@drawable/ic_battery_normal"/>
+                    android:src="@drawable/ic_battery_normal"
+                    android:contentDescription="@string/normal"/>
 
                 <TextView
                     android:id="@+id/battery_full_radiobtn_tv"
@@ -247,7 +252,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_battery_low"/>
+                    android:src="@drawable/ic_battery_low"
+                    android:contentDescription="@string/low"/>
 
                 <TextView
                     android:id="@+id/battery_low_radiobtn_tv"
@@ -296,7 +302,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="75dp"
-                    android:src="@drawable/ic_wifi"/>
+                    android:src="@drawable/ic_wifi"
+                    android:contentDescription="@string/unlimited"/>
 
                 <TextView
                     android:id="@+id/unlimited_radiobtn_textview"
@@ -317,7 +324,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_mobile_net"/>
+                    android:src="@drawable/ic_mobile_net"
+                    android:contentDescription="@string/limited"/>
 
                 <TextView
                     android:id="@+id/limited_radiobtn_textview"
@@ -366,7 +374,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="75dp"
-                    android:src="@drawable/ic_sound_on"/>
+                    android:src="@drawable/ic_sound_on"
+                    android:contentDescription="@string/normal"/>
 
                 <TextView
                     android:id="@+id/sound_mode_normal_radiobtn_tv"
@@ -387,7 +396,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_sound_off"/>
+                    android:src="@drawable/ic_sound_off"
+                    android:contentDescription="@string/silent"/>
 
                 <TextView
                     android:id="@+id/sound_mode_silent_radiobtn_tv"

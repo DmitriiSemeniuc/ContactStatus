@@ -2,8 +2,8 @@ package com.dev.sdv.contactstatus.modules;
 
 import android.support.annotation.NonNull;
 
-import com.dev.sdv.contactstatus.models.Status;
-import com.dev.sdv.contactstatus.models.User;
+import com.dev.sdv.contactstatus.db.DbHelper;
+import com.dev.sdv.contactstatus.db.FireBaseDbHelper;
 
 import javax.inject.Singleton;
 
@@ -11,12 +11,12 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public final class UserModule {
+public class DbHelperModule {
 
     @Provides
     @NonNull
     @Singleton
-    public User provideUser() {
-        return new User();
+    public FireBaseDbHelper provideDbHelperModule() {
+        return new FireBaseDbHelper();
     }
 }
