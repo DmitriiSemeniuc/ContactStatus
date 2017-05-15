@@ -5,6 +5,10 @@ public class Const {
     public static final String LOGIN_PREFS = "loginPrefs";
     public static final String USER_TYPE = "userType";
 
+    public class DateFormat {
+        public static final String DATE_TIME_PATTERN = "dd/MM/yyyy HH:mm:ss";
+    }
+
     public static class STATUS {
         public static final String PREFS = "statusPrefs";
         public static final String STATUS_SAVED = "statusSaved";
@@ -16,5 +20,7 @@ public class Const {
         public static final String NETWORK = "networkStatus";
         public static final String SOUND_MODE = "soundStatus";
         public static final String MESSAGE = "messageStatus";
+        public static final String LATITUDE = "latitudeStatus";
+        public static final String LONGITUDE = "longitudeStatus";
     }
 }

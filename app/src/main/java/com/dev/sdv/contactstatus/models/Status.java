@@ -1,23 +1,65 @@
 package com.dev.sdv.contactstatus.models;
 
-import android.location.Location;
+import com.google.firebase.database.ServerValue;
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Status {
 
+    private String uid;
     private boolean autoChange;
     private  boolean showLocation;
-    private Location location;
+    private long latitude;
+    private long longitude;
     private boolean freeLine;
     private boolean batteryNormal;
     private boolean networkUnlimited;
     private boolean soundModeNormal;
     private String statusMessage;
-    private Date lastTimeUpdated;
-    private String uid;
+    private long timeStamp;
 
     public Status() {
+    }
+
+    public Status(String uid, boolean autoChange, boolean showLocation, long latitude, long longitude,
+                  boolean freeLine, boolean batteryNormal, boolean networkUnlimited,
+                  boolean soundModeNormal, String statusMessage) {
+        this.uid = uid;
+        this.autoChange = autoChange;
+        this.showLocation = showLocation;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.freeLine = freeLine;
+        this.batteryNormal = batteryNormal;
+        this.networkUnlimited = networkUnlimited;
+        this.soundModeNormal = soundModeNormal;
+        this.statusMessage = statusMessage;
+    }
+
+    public Status(String uid, boolean autoChange, boolean showLocation, long latitude, long longitude,
+                  boolean freeLine, boolean batteryNormal, boolean networkUnlimited,
+                  boolean soundModeNormal, String statusMessage,
+                  long timeStamp) {
+        this.uid = uid;
+        this.autoChange = autoChange;
+        this.showLocation = showLocation;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.freeLine = freeLine;
+        this.batteryNormal = batteryNormal;
+        this.networkUnlimited = networkUnlimited;
+        this.soundModeNormal = soundModeNormal;
+        this.statusMessage = statusMessage;
+        this.timeStamp = timeStamp;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public boolean isAutoChange() {
@@ -36,12 +78,20 @@ public class Status {
         this.showLocation = showLocation;
     }
 
-    public Location getLocation() {
-        return location;
+    public long getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLatitude(long latitude) {
+        this.latitude = latitude;
+    }
+
+    public long getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(long longitude) {
+        this.longitude = longitude;
     }
 
     public boolean isFreeLine() {
@@ -84,33 +134,28 @@ public class Status {
         this.statusMessage = statusMessage;
     }
 
-    public Date getLastTimeUpdated() {
-        return lastTimeUpdated;
+    public long getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setLastTimeUpdated(Date lastTimeUpdated) {
-        this.lastTimeUpdated = lastTimeUpdated;
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
-    public String getUid() {
-        return uid;
-    }
+    public Map<String, Object> toMap(){
+        Map<String, Object> mapValue = new HashMap<>();
+        mapValue.put("uid", uid);
+        mapValue.put("autoChange", autoChange);
+        mapValue.put("showLocation", showLocation);
+        mapValue.put("latitude", latitude);
+        mapValue.put("longitude", longitude);
+        mapValue.put("freeLine", freeLine);
+        mapValue.put("batteryNormal", batteryNormal);
+        mapValue.put("networkUnlimited", networkUnlimited);
+        mapValue.put("soundModeNormal", soundModeNormal);
+        mapValue.put("statusMessage", statusMessage);
+        mapValue.put("timeStamp", ServerValue.TIMESTAMP);
+        return mapValue;
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    @Override public String toString() {
-        return "Status{" +
-                "autoChange=" + autoChange +
-                ", showLocation=" + showLocation +
-                ", location=" + location +
-                ", freeLine=" + freeLine +
-                ", batteryNormal=" + batteryNormal +
-                ", networkUnlimited=" + networkUnlimited +
-                ", soundModeNormal=" + soundModeNormal +
-                ", statusMessage='" + statusMessage + '\'' +
-                ", lastTimeUpdated=" + lastTimeUpdated +
-                '}';
     }
 }

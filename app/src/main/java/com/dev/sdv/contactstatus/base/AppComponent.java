@@ -2,8 +2,7 @@ package com.dev.sdv.contactstatus.base;
 
 import com.dev.sdv.contactstatus.auth.AuthActivity;
 import com.dev.sdv.contactstatus.auth.AuthInteractorImpl;
-import com.dev.sdv.contactstatus.auth.AuthPresenterImpl;
-import com.dev.sdv.contactstatus.fragments.StatusFragment;
+import com.dev.sdv.contactstatus.main.status.StatusFragment;
 import com.dev.sdv.contactstatus.main.MainActivity;
 import com.dev.sdv.contactstatus.main.MainInteractorImpl;
 import com.dev.sdv.contactstatus.main.status.MainStatusInteractorImpl;
@@ -14,7 +13,6 @@ import com.dev.sdv.contactstatus.modules.StatusModule;
 import com.dev.sdv.contactstatus.modules.StatusRepositoryModule;
 import com.dev.sdv.contactstatus.modules.UserModule;
 import com.dev.sdv.contactstatus.modules.UserRepositoryModule;
-import com.dev.sdv.contactstatus.repository.StatusRepository;
 
 import javax.inject.Singleton;
 

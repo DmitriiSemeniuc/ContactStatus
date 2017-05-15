@@ -7,13 +7,8 @@ import android.support.v4.content.ContextCompat;
 import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.R;
 import com.dev.sdv.contactstatus.base.BaseActivity;
-import com.dev.sdv.contactstatus.fragments.LoginFragment;
-import com.dev.sdv.contactstatus.fragments.SignInFragment;
 import com.dev.sdv.contactstatus.main.MainActivity;
-import com.dev.sdv.contactstatus.models.User;
 import com.google.android.gms.auth.api.Auth;
-
-import javax.inject.Inject;
 
 public class AuthActivity extends BaseActivity implements AuthView {
 

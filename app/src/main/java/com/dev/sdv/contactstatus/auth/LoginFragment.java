@@ -1,4 +1,4 @@
-package com.dev.sdv.contactstatus.fragments;
+package com.dev.sdv.contactstatus.auth;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.dev.sdv.contactstatus.R;
-import com.dev.sdv.contactstatus.auth.AuthActivity;
-import com.dev.sdv.contactstatus.auth.AuthView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

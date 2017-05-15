@@ -1,5 +1,6 @@
-package com.dev.sdv.contactstatus.fragments;
+package com.dev.sdv.contactstatus.main.status;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,20 +16,22 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.R;
+import com.dev.sdv.contactstatus.db.DbHelper;
+import com.dev.sdv.contactstatus.db.FireBaseDbHelper;
 import com.dev.sdv.contactstatus.main.MainActivity;
-import com.dev.sdv.contactstatus.main.status.MainStatusPresenter;
-import com.dev.sdv.contactstatus.main.status.MainStatusPresenterImpl;
-import com.dev.sdv.contactstatus.main.status.MainStatusView;
 import com.dev.sdv.contactstatus.models.Status;
 import com.dev.sdv.contactstatus.models.User;
+import com.dev.sdv.contactstatus.utils.Const;
 import com.dev.sdv.contactstatus.utils.PrefsImpl;
 import com.dev.sdv.contactstatus.utils.Utils;
+import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -126,10 +129,20 @@ public class StatusFragment extends Fragment implements MainStatusView {
         // Show location
         status.setUid(user.getUid());
         if(prefs.isStatusSavedInPrefs(getContext())){
+            Context ctx = getContext();
             // get status from prefs
-            updateStatusUI(prefs.isShowLocation(getContext()), prefs.isAutoChangeStatus(getContext()), prefs.isFreeLine(getContext()),
-                    prefs.isBatteryStateNormal(getContext()), prefs.isNetworkUnlimited(getContext()), prefs.isSoundModeNormal(getContext()),
-                    prefs.getStatusMessage(getContext()));
+            updateStatusUI(prefs.isShowLocation(ctx), prefs.isAutoChangeStatus(ctx), prefs.isFreeLine(ctx),
+                    prefs.isBatteryStateNormal(ctx), prefs.isNetworkUnlimited(ctx), prefs.isSoundModeNormal(ctx),
+                    prefs.getStatusMessage(ctx));
+
+            presenter.saveStatusToDb(new Status(user.getUid(), prefs.isAutoChangeStatus(ctx),
+                    prefs.isShowLocation(ctx), prefs.getLatitude(ctx),
+                    prefs.getLongitude(ctx),
+                    prefs.isFreeLine(ctx), prefs.isBatteryStateNormal(ctx),
+                    prefs.isNetworkUnlimited(ctx), prefs.isSoundModeNormal(ctx),
+                    prefs.getStatusMessage(ctx)));
+
+            presenter.getStatusFromDb(status.getUid());
         } else {
             // get status from db if exists
             presenter.getStatusFromDb(status.getUid());

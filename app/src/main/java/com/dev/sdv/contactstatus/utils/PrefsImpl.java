@@ -93,6 +93,28 @@ public class PrefsImpl implements Prefs, Prefs.Status {
         return settings.getString(Const.STATUS.MESSAGE, "");
     }
 
+    @Override public void setLatitude(long latitude, Context context) {
+        SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
+        editor.putLong(Const.STATUS.LATITUDE, latitude);
+        editor.commit();
+    }
+
+    @Override public long getLatitude(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
+        return settings.getLong(Const.STATUS.LATITUDE, 0L);
+    }
+
+    @Override public void setLongitude(long longitude, Context context) {
+        SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
+        editor.putLong(Const.STATUS.LONGITUDE, longitude);
+        editor.commit();
+    }
+
+    @Override public long getLongitude(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
+        return settings.getLong(Const.STATUS.LONGITUDE, 0L);
+    }
+
     @Override public void setStatusSavedInPrefs(boolean changed, Context context) {
         SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
         editor.putBoolean(Const.STATUS.STATUS_SAVED, changed);

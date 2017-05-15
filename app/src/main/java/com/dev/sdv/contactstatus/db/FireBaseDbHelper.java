@@ -6,14 +6,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FireBaseDbHelper implements DbHelper.UserCRUD, DbHelper.StatusCRUD {
-
-    private DatabaseReference database;
 
     private boolean isChildExists(String child, String childId, DbHelper.OnChildExistsListener listener) {
         DatabaseReference ref = getDbRef().child(child);
@@ -78,8 +79,8 @@ public class FireBaseDbHelper implements DbHelper.UserCRUD, DbHelper.StatusCRUD 
     @Override
     public void saveStatus(Status status, DbHelper.OnStatusChangeListener listener) {
         try {
-            DatabaseReference database = FirebaseDatabase.getInstance().getReference(DbHelper.FirebaseReference.STATUSES);
-            database.child(status.getUid()).setValue(status);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(DbHelper.FirebaseReference.STATUSES);
+            ref.child(status.getUid()).setValue(status.toMap());
             listener.onStatusChangeSuccess();
         } catch (Exception ex) {
             listener.onStatusChangeFailed(ex.getMessage());

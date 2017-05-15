@@ -44,5 +44,13 @@ interface Prefs {
         void setStatusMessage(String message, Context context);
 
         String getStatusMessage(Context context);
+
+        void setLatitude(long latitude, Context context);
+
+        long getLatitude(Context context);
+
+        void setLongitude(long longitude, Context context);
+
+        long getLongitude(Context context);
     }
 }

@@ -1,4 +1,4 @@
-package com.dev.sdv.contactstatus.fragments;
+package com.dev.sdv.contactstatus.main.invites;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.dev.sdv.contactstatus.R;
 
-public class NotificationsFragment extends Fragment {
+public class InvitesFragment extends Fragment {
 
-    public NotificationsFragment() {
+    public InvitesFragment() {
     }
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,

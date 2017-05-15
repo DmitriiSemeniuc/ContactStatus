@@ -1,4 +1,4 @@
-package com.dev.sdv.contactstatus.fragments;
+package com.dev.sdv.contactstatus.main.contacts;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

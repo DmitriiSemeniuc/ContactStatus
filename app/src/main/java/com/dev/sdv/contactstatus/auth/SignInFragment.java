@@ -1,4 +1,4 @@
-package com.dev.sdv.contactstatus.fragments;
+package com.dev.sdv.contactstatus.auth;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import com.dev.sdv.contactstatus.R;
 import com.dev.sdv.contactstatus.auth.AuthActivity;
 import com.dev.sdv.contactstatus.auth.AuthView;
-import com.google.android.gms.common.SignInButton;
+import com.dev.sdv.contactstatus.auth.LoginFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
