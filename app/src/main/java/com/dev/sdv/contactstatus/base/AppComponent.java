@@ -6,6 +6,7 @@ import com.dev.sdv.contactstatus.auth.AuthPresenterImpl;
 import com.dev.sdv.contactstatus.fragments.StatusFragment;
 import com.dev.sdv.contactstatus.main.MainActivity;
 import com.dev.sdv.contactstatus.main.MainInteractorImpl;
+import com.dev.sdv.contactstatus.main.status.MainStatusInteractorImpl;
 import com.dev.sdv.contactstatus.modules.AppModule;
 import com.dev.sdv.contactstatus.modules.DbHelperModule;
 import com.dev.sdv.contactstatus.modules.PrefsModule;
@@ -35,6 +36,7 @@ public interface AppComponent {
     void inject(AuthActivity authActivity);
     void inject(AuthInteractorImpl authInteractor);
     void inject(MainInteractorImpl mainInteractor);
+    void inject(MainStatusInteractorImpl mainStatusInteractor);
     void inject(MainActivity mainActivity);
     void inject(StatusFragment statusFragment);
 }

@@ -19,4 +19,9 @@ public class StatusRepository implements Repository.StatusCRUD {
     @Override public void saveStatus(Status status, DbHelper.OnStatusChangeListener listener) {
         dbHelper.saveStatus(status, listener);
     }
+
+    @Override
+    public void getStatusById(String statusId, DbHelper.OnStatusRetrievedListener listener) {
+        dbHelper.getStatusById(statusId, listener);
+    }
 }

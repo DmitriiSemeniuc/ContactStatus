@@ -29,7 +29,7 @@ public interface DbHelper {
 
         boolean deleteStatusByUserId(Status status, OnStatusChangeListener listener);
 
-        Status findStatusByUserId(String uid);
+        void getStatusById(String uid, OnStatusRetrievedListener listener);
     }
 
     interface OnUserChangeListener {
@@ -44,6 +44,13 @@ public interface DbHelper {
         void onStatusChangeSuccess();
 
         void onStatusChangeFailed(String error);
+    }
+
+    interface OnStatusRetrievedListener {
+
+        void onStatusRetrieveSuccess(Status status);
+
+        void onStatusRetrieveFailed(String error);
     }
 
     interface OnChildExistsListener{

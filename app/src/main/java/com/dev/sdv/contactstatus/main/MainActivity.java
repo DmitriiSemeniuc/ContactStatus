@@ -123,14 +123,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         hideProgressDialog();
     }
 
-    @Override public void showStatusChangedSuccessfullyMsg() {
-        Toast.makeText(this, getString(R.string.status_changed_successfully), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override public void showStatusChangeFailedMsg() {
-        Toast.makeText(this, getString(R.string.status_change_failed), Toast.LENGTH_SHORT).show();
-    }
-
     private void initSupportActionBar() {
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null){
@@ -200,4 +192,9 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
             return false;
         }
     };
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+    }
 }

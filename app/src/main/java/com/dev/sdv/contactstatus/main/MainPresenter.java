@@ -14,5 +14,5 @@ public interface MainPresenter extends BasePresenter {
 
     void disconnect();
 
-    void saveStatusToDb(Status status);
+    void onDestroy();
 }

@@ -13,8 +13,6 @@ interface MainInteractor {
 
     void disconnect(OnSignOutListener listener);
 
-    void saveStatusToDb(Status status, DbHelper.OnStatusChangeListener listener);
-
     interface OnSignOutListener {
         void onSignOut();
     }

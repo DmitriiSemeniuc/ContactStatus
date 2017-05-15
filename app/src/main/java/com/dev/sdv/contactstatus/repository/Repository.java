@@ -24,5 +24,7 @@ interface Repository {
     public interface StatusCRUD{
 
         void saveStatus(Status status, DbHelper.OnStatusChangeListener listener);
+
+        void getStatusById(String statusId, DbHelper.OnStatusRetrievedListener listener);
     }
 }

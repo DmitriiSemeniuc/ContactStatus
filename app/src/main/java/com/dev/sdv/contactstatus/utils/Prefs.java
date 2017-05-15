@@ -5,13 +5,17 @@ import android.content.SharedPreferences;
 
 interface Prefs {
 
+    void setStatusSavedInPrefs(boolean changed, Context context);
+
+    boolean isStatusSavedInPrefs(Context context);
+
     SharedPreferences.Editor getEditor(String prefs, Context context);
 
     interface Status {
 
         void setStatusId(String id, Context context);
 
-        String getStatusid(Context context);
+        String getStatusId(Context context);
 
         void setAutoChangeStatus(boolean autoChange, Context context);
 
@@ -21,9 +25,9 @@ interface Prefs {
 
         boolean isShowLocation(Context context);
 
-        void setAvailableForCall(boolean available, Context context);
+        void setFreeLine(boolean available, Context context);
 
-        boolean isAvailableForCall(Context context);
+        boolean isFreeLine(Context context);
 
         void setBatteryStateNormal(boolean normal, Context context);
 

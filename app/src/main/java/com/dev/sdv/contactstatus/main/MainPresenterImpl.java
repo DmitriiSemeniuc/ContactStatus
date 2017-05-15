@@ -14,7 +14,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-public class MainPresenterImpl implements MainPresenter, MainInteractor.OnSignOutListener, DbHelper.OnStatusChangeListener {
+public class MainPresenterImpl implements MainPresenter, MainInteractor.OnSignOutListener {
 
     private MainView mainView;
     private MainInteractor mainInteractor;
@@ -36,26 +36,11 @@ public class MainPresenterImpl implements MainPresenter, MainInteractor.OnSignOu
         mainInteractor.disconnect(this);
     }
 
-    @Override public void saveStatusToDb(com.dev.sdv.contactstatus.models.Status status) {
-        if(mainView != null) mainView.showProgress();
-        mainInteractor.saveStatusToDb(status, this);
-    }
-
     @Override public void onSignOut() {
         mainView.startAuthActivity();
     }
 
-    @Override public void onStatusChangeSuccess() {
-        if(mainView != null) {
-            mainView.hideProgress();
-            mainView.showStatusChangedSuccessfullyMsg();
-        }
-    }
-
-    @Override public void onStatusChangeFailed(String error) {
-        if(mainView != null) {
-            mainView.hideProgress();
-            mainView.showStatusChangeFailedMsg();
-        }
+    @Override public void onDestroy() {
+        mainView = null;
     }
 }

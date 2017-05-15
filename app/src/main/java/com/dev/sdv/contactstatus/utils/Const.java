@@ -7,6 +7,7 @@ public class Const {
 
     public static class STATUS {
         public static final String PREFS = "statusPrefs";
+        public static final String STATUS_SAVED = "statusSaved";
         public static final String STATUS_ID = "statusId";
         public static final String AUTO_CHANGE = "autoStatus";
         public static final String SHOW_LOCATION = "showLocationStatus";

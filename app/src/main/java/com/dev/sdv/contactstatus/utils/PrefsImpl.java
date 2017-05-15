@@ -11,7 +11,7 @@ public class PrefsImpl implements Prefs, Prefs.Status {
         editor.commit();
     }
 
-    @Override public String getStatusid(Context context) {
+    @Override public String getStatusId(Context context) {
         SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
         return settings.getString(Const.STATUS.STATUS_ID, "");
     }
@@ -38,13 +38,13 @@ public class PrefsImpl implements Prefs, Prefs.Status {
         return settings.getBoolean(Const.STATUS.SHOW_LOCATION, true);
     }
 
-    @Override public void setAvailableForCall(boolean available, Context context) {
+    @Override public void setFreeLine(boolean free, Context context) {
         SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
-        editor.putBoolean(Const.STATUS.AVAILABLE, available);
+        editor.putBoolean(Const.STATUS.AVAILABLE, free);
         editor.commit();
     }
 
-    @Override public boolean isAvailableForCall(Context context) {
+    @Override public boolean isFreeLine(Context context) {
         SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
         return settings.getBoolean(Const.STATUS.AVAILABLE, true);
     }
@@ -91,6 +91,17 @@ public class PrefsImpl implements Prefs, Prefs.Status {
     @Override public String getStatusMessage(Context context) {
         SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
         return settings.getString(Const.STATUS.MESSAGE, "");
+    }
+
+    @Override public void setStatusSavedInPrefs(boolean changed, Context context) {
+        SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
+        editor.putBoolean(Const.STATUS.STATUS_SAVED, changed);
+        editor.commit();
+    }
+
+    @Override public boolean isStatusSavedInPrefs(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
+        return settings.getBoolean(Const.STATUS.STATUS_SAVED, false);
     }
 
     @Override public SharedPreferences.Editor getEditor(String prefs, Context context) {

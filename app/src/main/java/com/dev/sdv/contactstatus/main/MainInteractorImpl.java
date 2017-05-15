@@ -62,8 +62,4 @@ public class MainInteractorImpl implements MainInteractor {
             listener.onSignOut();
         }
     }
-
-    @Override public void saveStatusToDb(com.dev.sdv.contactstatus.models.Status status, DbHelper.OnStatusChangeListener listener) {
-        statusRepository.saveStatus(status, listener);
-    }
 }

@@ -15,10 +15,14 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.dev.sdv.contactstatus.App;
 import com.dev.sdv.contactstatus.R;
 import com.dev.sdv.contactstatus.main.MainActivity;
+import com.dev.sdv.contactstatus.main.status.MainStatusPresenter;
+import com.dev.sdv.contactstatus.main.status.MainStatusPresenterImpl;
+import com.dev.sdv.contactstatus.main.status.MainStatusView;
 import com.dev.sdv.contactstatus.models.Status;
 import com.dev.sdv.contactstatus.models.User;
 import com.dev.sdv.contactstatus.utils.PrefsImpl;
@@ -35,7 +39,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 
-public class StatusFragment extends Fragment {
+public class StatusFragment extends Fragment implements MainStatusView {
 
     @BindView(R.id.auto_change_status_switch)
     SwitchCompat autoChangeStatusSwitch;
@@ -83,7 +87,14 @@ public class StatusFragment extends Fragment {
     @Inject Status status;
     @Inject PrefsImpl prefs;
 
+    private MainStatusPresenter presenter;
+
     public StatusFragment() {
+    }
+
+    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setPresenter(new MainStatusPresenterImpl(this, getContext()));
     }
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,52 +125,34 @@ public class StatusFragment extends Fragment {
     private void initStatusValues() {
         // Show location
         status.setUid(user.getUid());
-        boolean showLocation = prefs.isShowLocation(getContext());
+        if(prefs.isStatusSavedInPrefs(getContext())){
+            // get status from prefs
+            updateStatusUI(prefs.isShowLocation(getContext()), prefs.isAutoChangeStatus(getContext()), prefs.isFreeLine(getContext()),
+                    prefs.isBatteryStateNormal(getContext()), prefs.isNetworkUnlimited(getContext()), prefs.isSoundModeNormal(getContext()),
+                    prefs.getStatusMessage(getContext()));
+        } else {
+            // get status from db if exists
+            presenter.getStatusFromDb(status.getUid());
+        }
+    }
+
+    public void updateStatusUI(boolean showLocation, boolean autoChange, boolean freeLine,
+                                boolean batteryNormal, boolean networkUnlimited,
+                                boolean soundNormal, String message) {
         showLocationSwitch.setChecked(showLocation);
-        status.setShowLocation(showLocation);
-        // Change status automatically
-        boolean autoChange = prefs.isAutoChangeStatus(getContext());
         autoChangeStatusSwitch.setChecked(autoChange);
-        status.setAutoChange(autoChange);
-        // Call availability
-        boolean freeLine = prefs.isAvailableForCall(getContext());
-        if(freeLine){
-            freeLineRadioBtn.setChecked(true);
-        } else {
-            busyLineRadioBtn.setChecked(true);
-        }
-        status.setFreeLine(freeLine);
-        // Battery state
-        boolean batteryFull = prefs.isBatteryStateNormal(getContext());
-        if(batteryFull){
-            batteryFullRadioBtn.setChecked(true);
-        } else {
-            batteryLowRadioBtn.setChecked(true);
-        }
-        status.setBatteryNormal(batteryFull);
-        // Network state
-        boolean networkUnlimited = prefs.isNetworkUnlimited(getContext());
-        if(networkUnlimited){
-            networkUnlimitedRadioBtn.setChecked(true);
-        } else {
-            networkLimitedRadioBtn.setChecked(true);
-        }
-        status.setNetworkUnlimited(networkUnlimited);
-        // Sound mode
-        boolean soundNormal = prefs.isSoundModeNormal(getContext());
-        if(soundNormal){
-            soundModeNormalRadioBtn.setChecked(true);
-        } else {
-            soundModeSilentRadioBtn.setChecked(true);
-        }
-        status.setSoundModeNormal(soundNormal);
-        // Status message
-        String msg = prefs.getStatusMessage(getContext());
-        if(!TextUtils.isEmpty(msg)) {
-            statusMessageET.setText(msg.trim());
+        freeLineRadioBtn.setChecked(freeLine);
+        busyLineRadioBtn.setChecked(!freeLine);
+        batteryFullRadioBtn.setChecked(batteryNormal);
+        batteryLowRadioBtn.setChecked(!batteryNormal);
+        networkUnlimitedRadioBtn.setChecked(networkUnlimited);
+        networkLimitedRadioBtn.setChecked(!networkUnlimited);
+        soundModeNormalRadioBtn.setChecked(soundNormal);
+        soundModeSilentRadioBtn.setChecked(!soundNormal);
+        if(!TextUtils.isEmpty(message)) {
+            statusMessageET.setText(message.trim());
             editStatusMsgIV.setVisibility(View.VISIBLE);
         }
-        status.setStatusMessage(msg);
         saveStatusMsgIV.setVisibility(View.INVISIBLE);
         saveStatusBtn.setEnabled(false);
     }
@@ -257,67 +250,90 @@ public class StatusFragment extends Fragment {
 
     @OnClick(R.id.save_status_msg_iv)
     public void onSaveStatusIconClicked(){
-        saveStatusMsgIV.setVisibility(View.INVISIBLE);
+        saveStatusAndRestoreUi();
+    }
+
+    @OnClick(R.id.save_status_btn)
+    public void onSaveStatusBtnClicked(){
+        saveStatusAndRestoreUi();
+    }
+
+    public void saveStatusAndRestoreUi(){
+        saveStatusBtn.setEnabled(false);
         statusMessageET.clearFocus();
+        saveStatusMsgIV.setVisibility(View.INVISIBLE);
         if(!TextUtils.isEmpty(statusMessageET.getText().toString())){
             editStatusMsgIV.setVisibility(View.VISIBLE);
             statusMessageET.setEnabled(false);
         } else {
             editStatusMsgIV.setVisibility(View.INVISIBLE);
             statusMessageET.setEnabled(true);
-        }
-        Utils.hideKeyboard(mainStatusLayout, getContext());
-    }
-
-    @OnClick(R.id.save_status_btn)
-    public void onSaveStatusBtnClicked(){
-        saveStatusBtn.setEnabled(false);
-        statusMessageET.clearFocus();
-        saveStatusMsgIV.setVisibility(View.INVISIBLE);
-        if(!TextUtils.isEmpty(statusMessageET.getText().toString())){
-            statusMessageET.setEnabled(false);
-            editStatusMsgIV.setVisibility(View.VISIBLE);
-        } else {
-            statusMessageET.setEnabled(true);
             statusMessageET.clearFocus();
         }
+        Utils.hideKeyboard(mainStatusLayout, getContext());
         setUserStatus();
         saveUserStateToPrefs();
         saveStatusToDb();
     }
 
     private void saveStatusToDb() {
-        ((MainActivity) getActivity()).getPresenter().saveStatusToDb(status);
+        if(presenter != null) presenter.saveStatusToDb(status);
     }
 
     private void setUserStatus() {
-        status.setUid(user.getUid());
-        status.setStatusMessage(statusMessageET.getText().toString());
-        status.setShowLocation(showLocationSwitch.isChecked());
-        status.setAutoChange(autoChangeStatusSwitch.isChecked());
-        if(!autoChangeStatusSwitch.isChecked()){
-            status.setFreeLine(freeLineRadioBtn.isChecked());
-            status.setNetworkUnlimited(networkUnlimitedRadioBtn.isChecked());
-            status.setBatteryNormal(batteryFullRadioBtn.isChecked());
-            status.setSoundModeNormal(soundModeNormalRadioBtn.isChecked());
+        if(status != null){
+            status.setUid(user.getUid());
+            status.setStatusMessage(statusMessageET.getText().toString());
+            status.setShowLocation(showLocationSwitch.isChecked());
+            status.setAutoChange(autoChangeStatusSwitch.isChecked());
+            if(!autoChangeStatusSwitch.isChecked()){
+                status.setFreeLine(freeLineRadioBtn.isChecked());
+                status.setNetworkUnlimited(networkUnlimitedRadioBtn.isChecked());
+                status.setBatteryNormal(batteryFullRadioBtn.isChecked());
+                status.setSoundModeNormal(soundModeNormalRadioBtn.isChecked());
+            }
+            Log.d("Status", status.toString());
         }
-        Log.d("Status", status.toString());
     }
 
     private void saveUserStateToPrefs() {
-        prefs.setStatusId(user.getUid(), getContext());
-        prefs.setAutoChangeStatus(status.isAutoChange(), getContext());
-        prefs.setAvailableForCall(status.isFreeLine(), getContext());
-        prefs.setBatteryStateNormal(status.isBatteryNormal(), getContext());
-        prefs.setNetworkUnlimited(status.isNetworkUnlimited(), getContext());
-        prefs.setShowLocation(status.isShowLocation(), getContext());
-        prefs.setSoundModeNormal(status.isSoundModeNormal(), getContext());
-        prefs.setStatusMessage(status.getStatusMessage(), getContext());
+        if(prefs != null){
+            prefs.setStatusId(user.getUid(), getContext());
+            prefs.setAutoChangeStatus(status.isAutoChange(), getContext());
+            prefs.setFreeLine(status.isFreeLine(), getContext());
+            prefs.setBatteryStateNormal(status.isBatteryNormal(), getContext());
+            prefs.setNetworkUnlimited(status.isNetworkUnlimited(), getContext());
+            prefs.setShowLocation(status.isShowLocation(), getContext());
+            prefs.setSoundModeNormal(status.isSoundModeNormal(), getContext());
+            prefs.setStatusMessage(status.getStatusMessage(), getContext());
+            prefs.setStatusSavedInPrefs(true, getContext());
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        if(unbinder != null) unbinder.unbind();
+    }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        if(presenter != null) presenter.onDestroy();
+    }
+
+    @Override public void setPresenter(MainStatusPresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override public void showProgress() {
+        ((MainActivity) getActivity()).showProgress();
+    }
+
+    @Override public void hideProgress() {
+        ((MainActivity) getActivity()).hideProgress();
+    }
+
+    @Override public void showMessage(String message) {
+        ((MainActivity) getActivity()).showToast(message);
     }
 }

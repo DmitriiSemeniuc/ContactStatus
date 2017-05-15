@@ -66,4 +66,5 @@
     <string name="enter_status">Enter status &#8230;</string>
     <string name="status_changed_successfully">Status updated</string>
     <string name="status_change_failed">Status update failed</string>
+    <string name="fail_to_retreive_status_from_db">Fail to retrieve status from database</string>
 </resources>

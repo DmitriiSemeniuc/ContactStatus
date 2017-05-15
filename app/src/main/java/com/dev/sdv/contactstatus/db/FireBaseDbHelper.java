@@ -67,22 +67,22 @@ public class FireBaseDbHelper implements DbHelper.UserCRUD, DbHelper.StatusCRUD 
         return null;
     }
 
-    DatabaseReference getDbRef(){
+    DatabaseReference getDbRef() {
         return FirebaseDatabase.getInstance().getReference();
     }
 
-    DatabaseReference getDbRef(String child){
+    DatabaseReference getDbRef(String child) {
         return FirebaseDatabase.getInstance().getReference(child);
     }
 
     @Override
     public void saveStatus(Status status, DbHelper.OnStatusChangeListener listener) {
-        try{
+        try {
             DatabaseReference database = FirebaseDatabase.getInstance().getReference(DbHelper.FirebaseReference.STATUSES);
             database.child(status.getUid()).setValue(status);
             listener.onStatusChangeSuccess();
-        } catch (Exception ex){
-          listener.onStatusChangeFailed(ex.getMessage());
+        } catch (Exception ex) {
+            listener.onStatusChangeFailed(ex.getMessage());
         }
     }
 
@@ -96,7 +96,17 @@ public class FireBaseDbHelper implements DbHelper.UserCRUD, DbHelper.StatusCRUD 
         return false;
     }
 
-    @Override public Status findStatusByUserId(String uid) {
-        return null;
+    @Override public void getStatusById(String uid, DbHelper.OnStatusRetrievedListener listener) {
+        DatabaseReference ref = getDbRef().child(DbHelper.FirebaseReference.STATUSES);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                Status status = dataSnapshot.child(uid).getValue(Status.class);
+                listener.onStatusRetrieveSuccess(status);
+            }
+
+            @Override public void onCancelled(DatabaseError databaseError) {
+                listener.onStatusRetrieveFailed(databaseError.getMessage());
+            }
+        });
     }
 }
