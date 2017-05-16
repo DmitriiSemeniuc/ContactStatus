@@ -43,20 +43,39 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private static final int PERMISSION_READ_STATE = 1;
-    private MainPresenter presenter;
-
     @Inject User user;
-
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.toolbar_main) Toolbar toolbar;
+    private MainPresenter presenter;
     private ContactsFragment contactsFragment;
     private StatusFragment statusFragment;
     private InvitesFragment notificationsFragment;
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private MenuItem prevMenuItem;
-    private Intent serviceIntent;
+    private Intent statusServiceIntent;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_contacts:
+                    Toast.makeText(getApplicationContext(), "Contacts", Toast.LENGTH_SHORT).show();
+                    viewPager.setCurrentItem(0);
+                    return true;
+                case R.id.navigation_status:
+                    Toast.makeText(getApplicationContext(), "Status", Toast.LENGTH_SHORT).show();
+                    viewPager.setCurrentItem(1);
+                    return true;
+                case R.id.navigation_notifications:
+                    Toast.makeText(getApplicationContext(), "Notifications", Toast.LENGTH_SHORT).show();
+                    viewPager.setCurrentItem(2);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         App.getInstance().getComponent().inject(this);
@@ -65,7 +84,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         ButterKnife.bind(this);
         setStatusBarColor(ContextCompat.getColor(this, R.color.blue_800));
         setPresenter(new MainPresenterImpl(this, this));
-        if(Authentication.isGoogleUser()) presenter.reconnectGoogleApiClient(this);
+        if (Authentication.isGoogleUser()) presenter.reconnectGoogleApiClient(this);
         initSupportActionBar();
         initNavigationDrawer();
 
@@ -73,7 +92,8 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         viewPager = (ViewPager) findViewById(R.id.bottom_viewpager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
 
@@ -83,7 +103,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
                 } else {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
                 }
-                Log.d("page", "onPageSelected: "+ position);
+                Log.d("page", "onPageSelected: " + position);
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
 
@@ -103,10 +123,8 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
 
     @Override protected void onResume() {
         super.onResume();
-        serviceIntent = new Intent(this, StatusService.class);
-        startService(serviceIntent);
+        startStatusService();
     }
-
 
     private void setupViewPager(ViewPager viewPager) {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
@@ -119,12 +137,12 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         viewPager.setAdapter(adapter);
     }
 
-    @Override public void setPresenter(MainPresenter presenter) {
-        this.presenter = presenter;
+    public MainPresenter getPresenter() {
+        return presenter;
     }
 
-    public MainPresenter getPresenter(){
-        return presenter;
+    @Override public void setPresenter(MainPresenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override public void startAuthActivity() {
@@ -140,9 +158,24 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         hideProgressDialog();
     }
 
+    @Override public void startStatusService() {
+        statusServiceIntent = new Intent(this, StatusService.class);
+        startService(statusServiceIntent);
+    }
+
+    @Override public void stopStatusService() {
+        try {
+            if (statusServiceIntent != null) {
+                stopService(statusServiceIntent);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void initSupportActionBar() {
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
@@ -188,32 +221,10 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         }
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_contacts:
-                    Toast.makeText(getApplicationContext(), "Contacts", Toast.LENGTH_SHORT).show();
-                    viewPager.setCurrentItem(0);
-                    return true;
-                case R.id.navigation_status:
-                    Toast.makeText(getApplicationContext(), "Status", Toast.LENGTH_SHORT).show();
-                    viewPager.setCurrentItem(1);
-                    return true;
-                case R.id.navigation_notifications:
-                    Toast.makeText(getApplicationContext(), "Notifications", Toast.LENGTH_SHORT).show();
-                    viewPager.setCurrentItem(2);
-                    return true;
-            }
-            return false;
-        }
-    };
-
     @Override protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-        //stopService(serviceIntent);
+        //stopService(statusServiceIntent);
     }
 
     @Override

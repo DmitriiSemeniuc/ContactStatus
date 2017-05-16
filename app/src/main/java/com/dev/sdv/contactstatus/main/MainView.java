@@ -9,4 +9,8 @@ interface MainView extends BaseView<MainPresenter> {
     void showProgress();
 
     void hideProgress();
+
+    void startStatusService();
+
+    void stopStatusService();
 }

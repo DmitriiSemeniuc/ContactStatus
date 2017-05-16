@@ -309,6 +309,11 @@ public class StatusFragment extends Fragment implements MainStatusView {
         setUserStatus();
         saveUserStateToPrefs();
         saveStatusToDb();
+        if(status.isAutoChange()){
+            ((MainActivity)getActivity()).startStatusService();
+        } else {
+            ((MainActivity)getActivity()).stopStatusService();
+        }
     }
 
     private void saveStatusToDb() {
