@@ -1,10 +1,13 @@
 package com.dev.sdv.contactstatus.main;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -39,6 +42,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements MainView, NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    private static final int PERMISSION_READ_STATE = 1;
     private MainPresenter presenter;
 
     @Inject User user;
@@ -92,11 +96,17 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         setupViewPager(viewPager);
     }
 
+    @Override protected void onStart() {
+        super.onStart();
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, PERMISSION_READ_STATE);
+    }
+
     @Override protected void onResume() {
         super.onResume();
         serviceIntent = new Intent(this, StatusService.class);
         startService(serviceIntent);
     }
+
 
     private void setupViewPager(ViewPager viewPager) {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
@@ -204,5 +214,22 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         super.onDestroy();
         presenter.onDestroy();
         //stopService(serviceIntent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_READ_STATE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission granted!
+                    // you may now do the action that requires this permission
+                } else {
+                    // permission denied
+                }
+                return;
+            }
+
+        }
     }
 }
