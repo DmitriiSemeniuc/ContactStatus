@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dev.sdv.contactstatus">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -25,6 +27,8 @@
         <activity
             android:name=".main.MainActivity"
             android:theme="@style/NoActionBar" />
+
+        <service android:name="com.dev.sdv.contactstatus.main.StatusService" />
     </application>
 
 </manifest>

@@ -62,10 +62,16 @@ public class StatusFragment extends Fragment implements MainStatusView {
     RadioButton batteryLowRadioBtn;
     @BindView(R.id.network_radiogroup)
     RadioGroup networkStateRadioGroup;
-    @BindView(R.id.network_unlimited_radiobtn)
-    RadioButton networkUnlimitedRadioBtn;
     @BindView(R.id.network_limited_radiobtn)
     RadioButton networkLimitedRadioBtn;
+    @BindView(R.id.network_unlimited_radiobtn)
+    RadioButton networkUnlimitedRadioBtn;
+    @BindView(R.id.speed_radiogroup)
+    RadioGroup networkSpeedRadioGroup;
+    @BindView(R.id.fast_radiobtn)
+    RadioButton networkFastRadioBtn;
+    @BindView(R.id.slow_radiobtn)
+    RadioButton networkSlowRadioBtn;
     @BindView(R.id.sound_mode_radiogroup)
     RadioGroup soundModeRadioGroup;
     @BindView(R.id.sound_mode_normal_radiobtn)
@@ -121,6 +127,8 @@ public class StatusFragment extends Fragment implements MainStatusView {
         radioBtns.add(batteryLowRadioBtn);
         radioBtns.add(networkUnlimitedRadioBtn);
         radioBtns.add(networkLimitedRadioBtn);
+        radioBtns.add(networkFastRadioBtn);
+        radioBtns.add(networkSlowRadioBtn);
         radioBtns.add(soundModeNormalRadioBtn);
         radioBtns.add(soundModeSilentRadioBtn);
     }
@@ -132,14 +140,14 @@ public class StatusFragment extends Fragment implements MainStatusView {
             Context ctx = getContext();
             // get status from prefs
             updateStatusUI(prefs.isShowLocation(ctx), prefs.isAutoChangeStatus(ctx), prefs.isFreeLine(ctx),
-                    prefs.isBatteryStateNormal(ctx), prefs.isNetworkUnlimited(ctx), prefs.isSoundModeNormal(ctx),
+                    prefs.isBatteryStateNormal(ctx), prefs.isNetworkUnlimited(ctx), prefs.isNetworkFast(ctx), prefs.isSoundModeNormal(ctx),
                     prefs.getStatusMessage(ctx));
 
             presenter.saveStatusToDb(new Status(user.getUid(), prefs.isAutoChangeStatus(ctx),
                     prefs.isShowLocation(ctx), prefs.getLatitude(ctx),
                     prefs.getLongitude(ctx),
                     prefs.isFreeLine(ctx), prefs.isBatteryStateNormal(ctx),
-                    prefs.isNetworkUnlimited(ctx), prefs.isSoundModeNormal(ctx),
+                    prefs.isNetworkUnlimited(ctx), prefs.isNetworkFast(ctx), prefs.isSoundModeNormal(ctx),
                     prefs.getStatusMessage(ctx)));
 
             presenter.getStatusFromDb(status.getUid());
@@ -150,7 +158,7 @@ public class StatusFragment extends Fragment implements MainStatusView {
     }
 
     public void updateStatusUI(boolean showLocation, boolean autoChange, boolean freeLine,
-                                boolean batteryNormal, boolean networkUnlimited,
+                                boolean batteryNormal, boolean networkUnlimited, boolean networkFast,
                                 boolean soundNormal, String message) {
         showLocationSwitch.setChecked(showLocation);
         autoChangeStatusSwitch.setChecked(autoChange);
@@ -160,6 +168,8 @@ public class StatusFragment extends Fragment implements MainStatusView {
         batteryLowRadioBtn.setChecked(!batteryNormal);
         networkUnlimitedRadioBtn.setChecked(networkUnlimited);
         networkLimitedRadioBtn.setChecked(!networkUnlimited);
+        networkFastRadioBtn.setChecked(networkFast);
+        networkSlowRadioBtn.setChecked(!networkFast);
         soundModeNormalRadioBtn.setChecked(soundNormal);
         soundModeSilentRadioBtn.setChecked(!soundNormal);
         if(!TextUtils.isEmpty(message)) {
@@ -186,6 +196,8 @@ public class StatusFragment extends Fragment implements MainStatusView {
         else batteryLowRadioBtn.setChecked(true);
         if(status.isNetworkUnlimited()) networkUnlimitedRadioBtn.setChecked(true);
         else networkLimitedRadioBtn.setChecked(true);
+        if(status.isNetworkFast()) networkFastRadioBtn.setChecked(true);
+        else networkSlowRadioBtn.setChecked(true);
         if(status.isSoundModeNormal()) soundModeNormalRadioBtn.setChecked(true);
         else soundModeSilentRadioBtn.setChecked(true);
     }
@@ -229,6 +241,16 @@ public class StatusFragment extends Fragment implements MainStatusView {
 
     @OnClick(R.id.network_limited_radiobtn)
     public void onNetworkLimitedRadioBtnClicked(){
+        saveStatusBtn.setEnabled(true);
+    }
+
+    @OnClick(R.id.fast_radiobtn)
+    public void onNetworkFastRadioBtnClicked(){
+        saveStatusBtn.setEnabled(true);
+    }
+
+    @OnClick(R.id.slow_radiobtn)
+    public void onNetworkSlowRadioBtnClicked(){
         saveStatusBtn.setEnabled(true);
     }
 
@@ -302,6 +324,7 @@ public class StatusFragment extends Fragment implements MainStatusView {
             if(!autoChangeStatusSwitch.isChecked()){
                 status.setFreeLine(freeLineRadioBtn.isChecked());
                 status.setNetworkUnlimited(networkUnlimitedRadioBtn.isChecked());
+                status.setNetworkFast(networkFastRadioBtn.isChecked());
                 status.setBatteryNormal(batteryFullRadioBtn.isChecked());
                 status.setSoundModeNormal(soundModeNormalRadioBtn.isChecked());
             }
@@ -316,6 +339,7 @@ public class StatusFragment extends Fragment implements MainStatusView {
             prefs.setFreeLine(status.isFreeLine(), getContext());
             prefs.setBatteryStateNormal(status.isBatteryNormal(), getContext());
             prefs.setNetworkUnlimited(status.isNetworkUnlimited(), getContext());
+            prefs.setNetworkFast(status.isNetworkFast(), getContext());
             prefs.setShowLocation(status.isShowLocation(), getContext());
             prefs.setSoundModeNormal(status.isSoundModeNormal(), getContext());
             prefs.setStatusMessage(status.getStatusMessage(), getContext());

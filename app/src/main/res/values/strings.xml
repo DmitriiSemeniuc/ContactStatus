@@ -57,8 +57,11 @@
     <string name="normal">Normal</string>
     <string name="low">Low</string>
     <string name="network">Network:</string>
+    <string name="network_speed">Speed:</string>
     <string name="unlimited">Unlimited</string>
     <string name="limited">Limited</string>
+    <string name="fast">Fast</string>
+    <string name="slow">Slow</string>
     <string name="mode">Mode:</string>
     <string name="silent">Silent</string>
     <string name="show_location">Show location</string>

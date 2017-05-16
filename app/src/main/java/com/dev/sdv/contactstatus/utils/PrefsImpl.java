@@ -62,13 +62,24 @@ public class PrefsImpl implements Prefs, Prefs.Status {
 
     @Override public void setNetworkUnlimited(boolean unlimited, Context context) {
         SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
-        editor.putBoolean(Const.STATUS.NETWORK, unlimited);
+        editor.putBoolean(Const.STATUS.NETWORK_UNLIMITED, unlimited);
         editor.commit();
     }
 
     @Override public boolean isNetworkUnlimited(Context context) {
         SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
-        return settings.getBoolean(Const.STATUS.NETWORK, true);
+        return settings.getBoolean(Const.STATUS.NETWORK_UNLIMITED, true);
+    }
+
+    @Override public void setNetworkFast(boolean fast, Context context) {
+        SharedPreferences.Editor editor = getEditor(Const.STATUS.PREFS, context);
+        editor.putBoolean(Const.STATUS.NETWORK_FAST, fast);
+        editor.commit();
+    }
+
+    @Override public boolean isNetworkFast(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(Const.STATUS.PREFS, Context.MODE_PRIVATE);
+        return settings.getBoolean(Const.STATUS.NETWORK_FAST, true);
     }
 
     @Override public void setSoundModeNormal(boolean normal, Context context) {

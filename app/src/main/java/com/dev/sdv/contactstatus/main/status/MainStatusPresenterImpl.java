@@ -5,9 +5,6 @@ import android.content.Context;
 import com.dev.sdv.contactstatus.R;
 import com.dev.sdv.contactstatus.db.DbHelper;
 import com.dev.sdv.contactstatus.models.Status;
-import com.dev.sdv.contactstatus.repository.StatusRepository;
-
-import javax.inject.Inject;
 
 public class MainStatusPresenterImpl implements MainStatusPresenter, DbHelper.OnStatusRetrievedListener, DbHelper.OnStatusChangeListener {
 
@@ -41,7 +38,7 @@ public class MainStatusPresenterImpl implements MainStatusPresenter, DbHelper.On
         if(status != null && statusView != null){
             statusView.updateStatusUI(status.isShowLocation(), status.isAutoChange(),
                     status.isFreeLine(), status.isBatteryNormal(), status.isNetworkUnlimited(),
-                    status.isSoundModeNormal(), status.getStatusMessage());
+                    status.isNetworkFast(), status.isSoundModeNormal(), status.getStatusMessage());
         }
     }
 

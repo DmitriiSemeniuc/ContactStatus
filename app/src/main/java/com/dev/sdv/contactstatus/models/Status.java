@@ -15,6 +15,7 @@ public class Status {
     private boolean freeLine;
     private boolean batteryNormal;
     private boolean networkUnlimited;
+    private boolean networkFast;
     private boolean soundModeNormal;
     private String statusMessage;
     private long timeStamp;
@@ -23,7 +24,7 @@ public class Status {
     }
 
     public Status(String uid, boolean autoChange, boolean showLocation, long latitude, long longitude,
-                  boolean freeLine, boolean batteryNormal, boolean networkUnlimited,
+                  boolean freeLine, boolean batteryNormal, boolean networkUnlimited, boolean networkFast,
                   boolean soundModeNormal, String statusMessage) {
         this.uid = uid;
         this.autoChange = autoChange;
@@ -33,12 +34,13 @@ public class Status {
         this.freeLine = freeLine;
         this.batteryNormal = batteryNormal;
         this.networkUnlimited = networkUnlimited;
+        this.networkFast = networkFast;
         this.soundModeNormal = soundModeNormal;
         this.statusMessage = statusMessage;
     }
 
     public Status(String uid, boolean autoChange, boolean showLocation, long latitude, long longitude,
-                  boolean freeLine, boolean batteryNormal, boolean networkUnlimited,
+                  boolean freeLine, boolean batteryNormal, boolean networkUnlimited, boolean networkFast,
                   boolean soundModeNormal, String statusMessage,
                   long timeStamp) {
         this.uid = uid;
@@ -49,6 +51,7 @@ public class Status {
         this.freeLine = freeLine;
         this.batteryNormal = batteryNormal;
         this.networkUnlimited = networkUnlimited;
+        this.networkFast = networkFast;
         this.soundModeNormal = soundModeNormal;
         this.statusMessage = statusMessage;
         this.timeStamp = timeStamp;
@@ -118,6 +121,14 @@ public class Status {
         this.networkUnlimited = networkUnlimited;
     }
 
+    public boolean isNetworkFast() {
+        return networkFast;
+    }
+
+    public void setNetworkFast(boolean networkFast) {
+        this.networkFast = networkFast;
+    }
+
     public boolean isSoundModeNormal() {
         return soundModeNormal;
     }
@@ -152,6 +163,7 @@ public class Status {
         mapValue.put("freeLine", freeLine);
         mapValue.put("batteryNormal", batteryNormal);
         mapValue.put("networkUnlimited", networkUnlimited);
+        mapValue.put("networkFast", networkFast);
         mapValue.put("soundModeNormal", soundModeNormal);
         mapValue.put("statusMessage", statusMessage);
         mapValue.put("timeStamp", ServerValue.TIMESTAMP);

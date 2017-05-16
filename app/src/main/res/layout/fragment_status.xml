@@ -347,6 +347,78 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/speed_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:id="@+id/speed_title"
+                style="@style/StatusTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:text="@string/network_speed"
+                android:textColor="@color/blue_700"
+                android:textStyle="bold"/>
+
+            <RadioGroup
+                android:id="@+id/speed_radiogroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="75dp"
+                    android:src="@drawable/ic_wifi"
+                    android:contentDescription="@string/unlimited"/>
+
+                <TextView
+                    android:id="@+id/fast_radiobtn_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/fast"
+                    android:textColor="@color/green_800"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/fast_radiobtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:buttonTint="@color/green_800"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_mobile_net"
+                    android:contentDescription="@string/limited"/>
+
+                <TextView
+                    android:id="@+id/slow_radiobtn_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/slow"
+                    android:textColor="@color/red_800"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/slow_radiobtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    app:buttonTint="@color/red_800"/>
+
+            </RadioGroup>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/sound_mode_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

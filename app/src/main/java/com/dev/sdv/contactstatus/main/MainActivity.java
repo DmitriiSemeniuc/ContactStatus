@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private MenuItem prevMenuItem;
+    private Intent serviceIntent;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         App.getInstance().getComponent().inject(this);
@@ -89,6 +90,12 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
             }
         });
         setupViewPager(viewPager);
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        serviceIntent = new Intent(this, StatusService.class);
+        startService(serviceIntent);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -196,5 +203,6 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
     @Override protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+        //stopService(serviceIntent);
     }
 }

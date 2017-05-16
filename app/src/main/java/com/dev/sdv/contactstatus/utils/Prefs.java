@@ -37,6 +37,10 @@ interface Prefs {
 
         boolean isNetworkUnlimited(Context context);
 
+        void setNetworkFast(boolean fast, Context context);
+
+        boolean isNetworkFast(Context context);
+
         void setSoundModeNormal(boolean normal, Context context);
 
         boolean isSoundModeNormal(Context context);

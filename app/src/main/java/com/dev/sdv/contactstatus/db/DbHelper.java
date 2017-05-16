@@ -25,9 +25,9 @@ public interface DbHelper {
 
         void saveStatus(Status status, OnStatusChangeListener listener);
 
-        boolean updateStatusByUserId(Status status, OnStatusChangeListener listener);
+        void updateStatus(Status status, OnStatusChangeListener listener);
 
-        boolean deleteStatusByUserId(Status status, OnStatusChangeListener listener);
+        void deleteStatus(Status status, OnStatusChangeListener listener);
 
         void getStatusById(String uid, OnStatusRetrievedListener listener);
     }

@@ -11,6 +11,6 @@ public interface MainStatusView extends BaseView<MainStatusPresenter> {
     void showMessage(String message);
 
     void updateStatusUI(boolean showLocation, boolean autoChange, boolean freeLine,
-                        boolean batteryNormal, boolean networkUnlimited,
+                        boolean batteryNormal, boolean networkUnlimited, boolean networkFast,
                         boolean soundNormal, String message);
 }

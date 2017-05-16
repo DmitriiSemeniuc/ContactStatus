@@ -81,20 +81,19 @@ public class FireBaseDbHelper implements DbHelper.UserCRUD, DbHelper.StatusCRUD 
         try {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference(DbHelper.FirebaseReference.STATUSES);
             ref.child(status.getUid()).setValue(status.toMap());
-            listener.onStatusChangeSuccess();
+            if(listener != null) listener.onStatusChangeSuccess();
         } catch (Exception ex) {
-            listener.onStatusChangeFailed(ex.getMessage());
+            if(listener != null) listener.onStatusChangeFailed(ex.getMessage());
         }
     }
 
     @Override
-    public boolean updateStatusByUserId(Status status, DbHelper.OnStatusChangeListener listener) {
-        return false;
+    public void updateStatus(Status status, DbHelper.OnStatusChangeListener listener) {
+        saveStatus(status, listener);
     }
 
     @Override
-    public boolean deleteStatusByUserId(Status status, DbHelper.OnStatusChangeListener listener) {
-        return false;
+    public void deleteStatus(Status status, DbHelper.OnStatusChangeListener listener) {
     }
 
     @Override public void getStatusById(String uid, DbHelper.OnStatusRetrievedListener listener) {

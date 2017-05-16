@@ -17,7 +17,8 @@ public class Const {
         public static final String SHOW_LOCATION = "showLocationStatus";
         public static final String AVAILABLE = "availableStatus";
         public static final String BATTERY_NORMAL = "batteryStatus";
-        public static final String NETWORK = "networkStatus";
+        public static final String NETWORK_UNLIMITED = "networkUnlimitedStatus";
+        public static final String NETWORK_FAST = "networkFastdStatus";
         public static final String SOUND_MODE = "soundStatus";
         public static final String MESSAGE = "messageStatus";
         public static final String LATITUDE = "latitudeStatus";
