@@ -112,8 +112,11 @@ public class StatusService extends Service {
     }
 
     //** PHONE STATE ZONE ***********
-    //Incoming call-  goes from IDLE to RINGING when it rings, to OFFHOOK when it's answered, to IDLE when its hung up
-    //Outgoing call-  goes from IDLE to OFFHOOK when it dials out, to IDLE when hung up
+
+    /**
+     * Incoming call-  goes from IDLE to RINGING when it rings, to OFFHOOK when it's answered, to IDLE when its hung up
+     * Outgoing call-  goes from IDLE to OFFHOOK when it dials out, to IDLE when hung up
+     */
     public void onCallStateChanged(Context context, int state) {
         try {
             if (lastState == state) {
@@ -215,7 +218,7 @@ public class StatusService extends Service {
         @Override public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "phone state broadcast");
             String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
-            //String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+            if(stateStr == null) return;
             int state = 0;
             if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                 state = TelephonyManager.CALL_STATE_IDLE;
