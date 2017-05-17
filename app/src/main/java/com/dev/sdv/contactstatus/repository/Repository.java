@@ -26,5 +26,7 @@ interface Repository {
         void saveStatus(Status status, DbHelper.OnStatusChangeListener listener);
 
         void getStatusById(String statusId, DbHelper.OnStatusRetrievedListener listener);
+
+        void registerOnStatusChangeListener(String uid);
     }
 }

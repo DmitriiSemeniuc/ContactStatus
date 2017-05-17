@@ -19,13 +19,16 @@ public class Status {
     private boolean soundModeNormal;
     private String statusMessage;
     private long timeStamp;
+    private String userName;
+    private String userPhotoUrl;
+    private String userPhoneNumber;
 
     public Status() {
     }
 
     public Status(String uid, boolean autoChange, boolean showLocation, long latitude, long longitude,
                   boolean freeLine, boolean batteryNormal, boolean networkUnlimited, boolean networkFast,
-                  boolean soundModeNormal, String statusMessage) {
+                  boolean soundModeNormal, String statusMessage, String userName, String userPhotoUrl, String userPhoneNumber) {
         this.uid = uid;
         this.autoChange = autoChange;
         this.showLocation = showLocation;
@@ -37,24 +40,9 @@ public class Status {
         this.networkFast = networkFast;
         this.soundModeNormal = soundModeNormal;
         this.statusMessage = statusMessage;
-    }
-
-    public Status(String uid, boolean autoChange, boolean showLocation, long latitude, long longitude,
-                  boolean freeLine, boolean batteryNormal, boolean networkUnlimited, boolean networkFast,
-                  boolean soundModeNormal, String statusMessage,
-                  long timeStamp) {
-        this.uid = uid;
-        this.autoChange = autoChange;
-        this.showLocation = showLocation;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.freeLine = freeLine;
-        this.batteryNormal = batteryNormal;
-        this.networkUnlimited = networkUnlimited;
-        this.networkFast = networkFast;
-        this.soundModeNormal = soundModeNormal;
-        this.statusMessage = statusMessage;
-        this.timeStamp = timeStamp;
+        this.userName = userName;
+        this.userPhotoUrl = userPhotoUrl;
+        this.userPhoneNumber = userPhoneNumber;
     }
 
     public String getUid() {
@@ -153,6 +141,30 @@ public class Status {
         this.timeStamp = timeStamp;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPhotoUrl() {
+        return userPhotoUrl;
+    }
+
+    public void setUserPhotoUrl(String userPhotoUrl) {
+        this.userPhotoUrl = userPhotoUrl;
+    }
+
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
+
     public Map<String, Object> toMap(){
         Map<String, Object> mapValue = new HashMap<>();
         mapValue.put("uid", uid);
@@ -166,6 +178,9 @@ public class Status {
         mapValue.put("networkFast", networkFast);
         mapValue.put("soundModeNormal", soundModeNormal);
         mapValue.put("statusMessage", statusMessage);
+        mapValue.put("userName", userName);
+        mapValue.put("userPhotoUrl", userPhotoUrl);
+        mapValue.put("userPhoneNumber", userPhoneNumber);
         mapValue.put("timeStamp", ServerValue.TIMESTAMP);
         return mapValue;
 

@@ -148,12 +148,15 @@ public class StatusFragment extends Fragment implements MainStatusView {
                     prefs.getLongitude(ctx),
                     prefs.isFreeLine(ctx), prefs.isBatteryStateNormal(ctx),
                     prefs.isNetworkUnlimited(ctx), prefs.isNetworkFast(ctx), prefs.isSoundModeNormal(ctx),
-                    prefs.getStatusMessage(ctx)));
+                    prefs.getStatusMessage(ctx), user.getName(), user.getPhotoUrl(), user.getPhoneNumber()));
 
             presenter.getStatusFromDb(status.getUid());
         } else {
             // get status from db if exists
             presenter.getStatusFromDb(status.getUid());
+        }
+        if(status.isAutoChange()){
+            ((MainActivity) getActivity()).startStatusService();
         }
     }
 
@@ -323,6 +326,9 @@ public class StatusFragment extends Fragment implements MainStatusView {
     private void setUserStatus() {
         if(status != null){
             status.setUid(user.getUid());
+            status.setUserName(user.getName());
+            status.setUserPhotoUrl(user.getPhotoUrl());
+            status.setUserPhoneNumber(user.getPhoneNumber());
             status.setStatusMessage(statusMessageET.getText().toString());
             status.setShowLocation(showLocationSwitch.isChecked());
             status.setAutoChange(autoChangeStatusSwitch.isChecked());

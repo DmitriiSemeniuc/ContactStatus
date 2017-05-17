@@ -31,12 +31,14 @@ public class StatusService extends Service {
 
     private static int lastState = TelephonyManager.CALL_STATE_IDLE;
     private static boolean isIncoming;
-    @Inject Status currentStatus;
+    //@Inject Status currentStatus;
+    @Inject Status status;
     private NetworkConnectivityReceiver networkConnectivityReceiver;
     private DatabaseReference statusDbRef;
     private BatteryStateReceiver batteryStateReceiver;
     private PhoneStateReceiver phoneStateReceiver;
-    private Status status;
+    //private Status status;
+    private DatabaseReference statusUpdatesDbRef;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -48,13 +50,15 @@ public class StatusService extends Service {
         super.onCreate();
         ((App) getApplication()).getComponent().inject(this);
         statusDbRef = FirebaseDatabase.getInstance().getReference(DbHelper.FirebaseReference.STATUSES);
-        status = currentStatus;
+        statusUpdatesDbRef = FirebaseDatabase.getInstance().getReference(DbHelper.FirebaseReference.STATUS_UPDATES);
+        //status = currentStatus;
         registerBroadcastReceivers();
     }
 
     private void updateStatusInDb(Status status) {
         try {
             statusDbRef.child(status.getUid()).setValue(status.toMap());
+            statusUpdatesDbRef.child(status.getUid()).child("updated").setValue(statusUpdatesDbRef.push().getKey());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

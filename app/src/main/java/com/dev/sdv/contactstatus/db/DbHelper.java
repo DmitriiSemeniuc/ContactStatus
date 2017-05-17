@@ -66,5 +66,6 @@ public interface DbHelper {
 
         public static final String USERS = "users";
         public static final String STATUSES = "statuses";
+        public static final String STATUS_UPDATES = "statusUpdates";
     }
 }

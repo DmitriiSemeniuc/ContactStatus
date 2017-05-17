@@ -121,10 +121,10 @@ public class MainActivity extends BaseActivity implements MainView, NavigationVi
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, PERMISSION_READ_STATE);
     }
 
-    @Override protected void onResume() {
+    /*@Override protected void onResume() {
         super.onResume();
         startStatusService();
-    }
+    }*/
 
     private void setupViewPager(ViewPager viewPager) {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(getSupportFragmentManager());
