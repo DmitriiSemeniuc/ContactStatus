@@ -7,10 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".auth.AuthActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue_800"
+        android:background="@color/md_teal_600"
         android:focusableInTouchMode="true">
 
         <RelativeLayout
@@ -19,28 +20,46 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true">
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/login_email_et"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/loginField"
-                android:hint="@string/hint_email"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:inputType="textEmailAddress"/>
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/login_password_et"
+            >
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/login_email_et"
+                    style="@style/loginField"
+                    android:hint="@string/hint_email"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    android:inputType="textEmailAddress"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/til_email"
                 style="@style/loginField"
-                android:layout_below="@+id/login_email_et"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:hint="@string/hint_password"
-                android:inputType="textVisiblePassword"/>
+            >
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/login_password_et"
+                    style="@style/loginField"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    android:hint="@string/hint_password"
+                    android:inputType="textVisiblePassword"
+                />
+            </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/login_password_et"
+                android:layout_below="@+id/til_password"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:textColor="@android:color/black"
+                android:textColor="@color/md_amber_300"
+                android:background="@drawable/btn_login_bg"
                 android:text="@string/login"/>
 
             <RelativeLayout
@@ -55,7 +74,7 @@
                     android:layout_width="100dp"
                     android:layout_height="1px"
                     android:layout_centerVertical="true"
-                    android:background="@android:color/white"/>
+                    android:background="@color/md_amber_300"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/login_or_tv"
@@ -70,7 +89,7 @@
                     android:layout_toRightOf="@+id/login_divider_1_v"
                     android:fontFamily="monospace"
                     android:text="or"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@color/md_amber_300"/>
 
                 <View
                     android:layout_width="100dp"
@@ -78,7 +97,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/login_or_tv"
                     android:layout_toRightOf="@+id/login_or_tv"
-                    android:background="@android:color/white"/>
+                    android:background="@color/md_amber_300"/>
             </RelativeLayout>
 
             <com.google.android.gms.common.SignInButton
@@ -105,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:text="Do not have account yet?"
-                android:textColor="@android:color/white"
+                android:textColor="@color/md_amber_300"
                 android:textSize="16sp"/>
 
             <android.support.v7.widget.AppCompatTextView
@@ -118,7 +137,7 @@
                 android:layout_toRightOf="@+id/login_sign_in_question_tv"
                 android:fontFamily="sans-serif"
                 android:text="@string/sign_in"
-                android:textColor="@android:color/white"
+                android:textColor="@color/md_amber_400"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
         </RelativeLayout>

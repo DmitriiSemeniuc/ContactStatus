@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+      android:id="@+id/navigation_contacts"
+      android:enabled="true"
+      android:icon="@drawable/ic_contacts"
+      android:title="@string/title_contacts"
+      app:showAsAction="ifRoom" />
+  <item
+      android:id="@+id/navigation_status"
+      android:enabled="true"
+      android:icon="@drawable/ic_status"
+      android:title="@string/title_status"
+      app:showAsAction="ifRoom" />
+  <item
+      android:id="@+id/navigation_notifications"
+      android:enabled="true"
+      android:icon="@drawable/ic_notifications"
+      android:title="@string/title_notifications"
+      app:showAsAction="ifRoom" />
+</menu>

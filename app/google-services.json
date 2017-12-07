@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:598540502298:android:b19b2b986f65061a",
+        "mobilesdk_app_id": "1:598540502298:android:67369fd033ce7adb",
         "android_client_info": {
-          "package_name": "com.dev.sdv.contactstatus"
+          "package_name": "com.dmitrii.semeniuc.contactstatus"
         }
       },
       "oauth_client": [
         {
-          "client_id": "598540502298-1g2mubhu6957d6mffgegh6aabln45oq8.apps.googleusercontent.com",
+          "client_id": "598540502298-6g8a92h0hiu6k8847305odqflvbmfok0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.dev.sdv.contactstatus",
-            "certificate_hash": "12ac2ba990db1e389db139f4f6fbab41af195323"
+            "package_name": "com.dmitrii.semeniuc.contactstatus",
+            "certificate_hash": "bf12c8c81911b71d50b9a5bd25624c4dcc62de7b"
           }
         },
         {
