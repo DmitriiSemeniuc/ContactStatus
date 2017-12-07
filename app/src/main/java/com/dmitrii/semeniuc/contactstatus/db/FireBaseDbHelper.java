@@ -3,6 +3,7 @@ package com.dmitrii.semeniuc.contactstatus.db;
 import android.util.Log;
 
 import com.dmitrii.semeniuc.contactstatus.main.contacts.MainContactsInteractor;
+import com.dmitrii.semeniuc.contactstatus.models.Contact;
 import com.dmitrii.semeniuc.contactstatus.models.Status;
 import com.dmitrii.semeniuc.contactstatus.models.User;
 import com.google.firebase.database.ChildEventListener;
@@ -15,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class FireBaseDbHelper implements DbHelper.UserCRUD, DbHelper.StatusCRUD {
+public class FireBaseDbHelper implements DbHelper.UserCRUD, DbHelper.StatusCRUD, DbHelper.ContactCRUD {
 
     public static final String TAG = FireBaseDbHelper.class.getSimpleName();
 
@@ -173,5 +174,37 @@ public class FireBaseDbHelper implements DbHelper.UserCRUD, DbHelper.StatusCRUD 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(DbHelper.FirebaseReference.STATUS_UPDATES);
         Query statusQuery = ref.orderByChild(uid).equalTo(true);
         statusQuery.addChildEventListener(statusChangeListener);
+    }
+
+    @Override public void saveContact(Contact contact, DbHelper.OnContactChangeListener listener) {
+
+    }
+
+    @Override
+    public void updateContact(Contact contact, DbHelper.OnContactChangeListener listener) {
+
+    }
+
+    @Override
+    public void deleteContact(Contact contact, DbHelper.OnContactChangeListener listener) {
+
+    }
+
+    @Override public void getContactById(String uid, DbHelper.OnContactRetrieveListener listener) {
+        DatabaseReference ref = getDbRef().child(DbHelper.FirebaseReference.CONTACTS);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override public void onDataChange(DataSnapshot dataSnapshot) {
+                Contact contact = dataSnapshot.child(uid).getValue(Contact.class);
+                listener.onContactRetrieveSuccess(contact);
+            }
+
+            @Override public void onCancelled(DatabaseError databaseError) {
+                listener.onContactRetrieveFailed(databaseError.getMessage());
+            }
+        });
+    }
+
+    @Override public void getAllContacts(String uid, DbHelper.OnContactRetrieveListener listener) {
+
     }
 }

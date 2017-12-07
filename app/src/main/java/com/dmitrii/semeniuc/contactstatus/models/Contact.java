@@ -2,10 +2,12 @@ package com.dmitrii.semeniuc.contactstatus.models;
 
 public class Contact {
 
-    String uid;
-    String group;
-    String relatedUserId;
+    private String group;
+    private String name;
+    private String relatedUserId;
+    private String uid;
     boolean stared;
+    private Status status;
 
     public Contact(){
     }
@@ -16,6 +18,22 @@ public class Contact {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getGroup() {
